@@ -23,16 +23,24 @@ export default function GameBoard () {
         if(board[x][y] !== null) {
             return "occupied"
         }else {
-            return "miss"
+            return "empty cell"
         }
     }
     
+    function checkIsSunk(x,y) {
+        if(board[x][y]!==null) {
+            return board[x][y].isSunk()
+        }else {
+            return "Missed"
+        }
+    }
 
     return {
         createBoard,
         placeShips,
         receiveAttack,
-        checkIfOccupied
+        checkIfOccupied,
+        checkIsSunk
     
     }
 

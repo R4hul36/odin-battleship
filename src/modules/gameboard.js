@@ -19,12 +19,18 @@ export default function GameBoard () {
             currShip.hit()
         }
     }
+    function checkIfOccupied (x,y) {
+        if(board[x][y] !== null) {
+            return 1
+        }
+    }
     
 
     return {
         createBoard,
         placeShips,
-        receiveAttack
+        receiveAttack,
+        checkIfOccupied
     
     }
 

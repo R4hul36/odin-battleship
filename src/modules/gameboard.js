@@ -21,7 +21,9 @@ export default function GameBoard () {
     }
     function checkIfOccupied (x,y) {
         if(board[x][y] !== null) {
-            return 1
+            return "occupied"
+        }else {
+            return "miss"
         }
     }
     

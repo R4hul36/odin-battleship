@@ -1,4 +1,5 @@
 import Ship from "./ship"
+import generateRandomCoordinates from "../utils/generateCoordinates"
 
 export default function GameBoard () {
     let board
@@ -8,9 +9,9 @@ export default function GameBoard () {
         )
     }
 
-    function placeShips (x,y) {
-        let newShip = Ship(1)
-        board[x][y] = newShip
+    function placeShips (ship) {
+        const [x,y] = generateRandomCoordinates()
+        board[x][y] = ship
     }
 
     function receiveAttack (x,y){

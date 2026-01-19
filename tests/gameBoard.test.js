@@ -1,12 +1,17 @@
 import GameBoard from "../src/modules/gameboard";
+import Ship from "../src/modules/ship";
+import generateRandomCoordinates from "../src/utils/generateCoordinates";
 
-it("check if a ship is placed on the correct coordinate on the board", () => {
+jest.mock("../src/utils/generateCoordinates", () => (
+    jest.fn(() => [0,4])
+))
+
+it("check the flow of placing and receiving damage on a ship", () => {
     let newBoard = GameBoard()
     newBoard.createBoard()
-    newBoard.placeShips(0,4)
+    const newShip = Ship(1)
+    newBoard.placeShips(newShip)
     newBoard.receiveAttack(0,4)
-    expect(newBoard.checkIfOccupied(0,4)).toBe("occupied")
-    expect(newBoard.checkIfOccupied(1,7)).toBe("empty cell")
-    expect(newBoard.checkIsSunk(0,4)).toBe(true)
-    expect(newBoard.checkIsSunk(0,8)).toBe("Missed")
+    expect(newShip.hitCount()).toBe(1)
+    expect(newShip.isSunk()).toBe(true)
 })

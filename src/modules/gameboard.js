@@ -9,7 +9,12 @@ export default function GameBoard() {
   }
 
   function placeShips(ship) {
-    const [x, y] = generateRandomCoordinates()
+    let [x, y] = generateRandomCoordinates()
+    while (!isValidBoundary(x, y, 3)) {
+      let newCoord = generateRandomCoordinates()
+      x = newCoord[0]
+      y = newCoord[1]
+    }
     board[x][y] = ship
   }
 

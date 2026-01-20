@@ -39,6 +39,7 @@ export default function GameBoard() {
       return 'Missed'
     }
   }
+ 
 
   return {
     createBoard,
@@ -46,5 +47,6 @@ export default function GameBoard() {
     receiveAttack,
     checkIfOccupied,
     checkIsSunk,
+    
   }
 }

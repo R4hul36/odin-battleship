@@ -10,13 +10,18 @@ export default function GameBoard() {
   }
 
   function placeShips(ship) {
+    const length = ship.shipLength()
     let [x, y] = generateRandomCoordinates()
-    while (!isValidBoundary(x, y, ship.shipLength())) {
+    while (
+      !isValidBoundary(x, y, length || !isNonOverlapping(x, y, board, length))
+    ) {
       let newCoord = generateRandomCoordinates()
       x = newCoord[0]
       y = newCoord[1]
     }
-    board[x][y] = ship
+    for (let i = 0; i < length; i++) {
+      board[x][y + i] = ship
+    }
   }
 
   function receiveAttack(x, y) {

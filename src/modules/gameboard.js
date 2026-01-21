@@ -11,7 +11,7 @@ export default function GameBoard() {
 
   function placeShips(ship) {
     let [x, y] = generateRandomCoordinates()
-    while (!isValidBoundary(x, y, 3)) {
+    while (!isValidBoundary(x, y, ship.shipLength())) {
       let newCoord = generateRandomCoordinates()
       x = newCoord[0]
       y = newCoord[1]

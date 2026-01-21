@@ -9,7 +9,7 @@ export default function Ship(length, count = 0) {
   }
 
   function shipLength() {
-    return length()
+    return length
   }
 
   return {

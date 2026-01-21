@@ -1,4 +1,4 @@
-export default function isValidBoundary(x, y, length) {
+export default function isValidHorizontalBoundary(x, y, length) {
   const boardWidth = 10
   const adjustedX = x
   const adjustedY = y + length - 1

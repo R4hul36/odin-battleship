@@ -1,6 +1,7 @@
 import Ship from './ship'
 import generateRandomCoordinates from '../utils/generateCoordinates'
 import isValidBoundary from '../utils/checkBoundary'
+import isNonOverlapping from '../utils/checkOverlap'
 
 export default function GameBoard() {
   let board
@@ -39,7 +40,6 @@ export default function GameBoard() {
       return 'Missed'
     }
   }
- 
 
   return {
     createBoard,
@@ -47,6 +47,5 @@ export default function GameBoard() {
     receiveAttack,
     checkIfOccupied,
     checkIsSunk,
-    
   }
 }

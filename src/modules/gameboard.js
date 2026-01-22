@@ -35,6 +35,21 @@ export default function GameBoard() {
     }
   }
 
+  function allShipsSunk() {
+    let shipsSunk = true
+
+    for (row of board) {
+      for(tile of row) {
+        if(tile!== null) {
+          if(tile.isSunk() === false){
+            shipsSunk = false
+          }
+        }
+      }
+    }
+    return shipsSunk
+  }
+
   function checkMissedCoord () {
     return missedCoord
   }
@@ -44,6 +59,6 @@ export default function GameBoard() {
     placeShipsHorizontally,
     receiveAttack,
     checkMissedCoord,
-    
+    allShipsSunk
   }
 }

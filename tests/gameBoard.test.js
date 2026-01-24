@@ -4,13 +4,33 @@ import generateRandomCoordinates from '../src/utils/generateCoordinates'
 
 jest.mock('../src/utils/generateCoordinates', () => jest.fn(() => [0, 4]))
 
-it('check the flow of placing and receiving damage on a ship placed horizontally', () => {
-  let newBoard = GameBoard()
-  newBoard.createBoard()
-  const newShip = Ship(1)
-  newBoard.placeShipsHorizontally(newShip)
-  newBoard.receiveAttack(0, 4)
-  expect(newShip.hitCount()).toBe(1)
-  expect(newShip.isSunk()).toBe(true)
-  expect(newBoard.allShipsSunk()).toBe(true)
+let newBoard = GameBoard()
+
+describe("Gameboard", () => {
+  beforeEach(()=> {
+    newBoard.createBoard()
+    
+  })
+  it("check if ship receives damage correctly", () => {
+    const newShip = Ship(3)
+    newBoard.placeShipsHorizontally(newShip)
+    newBoard.receiveAttack(0,4)
+    expect(newShip.hitCount()).toBe(1)
+  })
+
+  it("check if a ship is sunk", () => {
+    const newShip = Ship(1)
+    newBoard.placeShipsHorizontally(newShip)
+    newBoard.receiveAttack(0,4)
+    expect(newShip.isSunk()).toBe(true)
+  })
+
+  it("checks if all the ships in the board are sunk", () => {
+    const newShip = Ship(1)
+    newBoard.placeShipsHorizontally(newShip)
+    newBoard.receiveAttack(0,4)
+    expect(newBoard.allShipsSunk()).toBe(true)
+  })
+
+
 })

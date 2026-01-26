@@ -25,7 +25,9 @@ export default function GameBoard() {
       for (let i = 0; i < length; i++) {
         board[x][y + i] = ship
       }
+      return true
     }
+    return false
    
   }
 

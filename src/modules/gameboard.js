@@ -11,19 +11,22 @@ export default function GameBoard() {
     board = Array.from({ length: 10 }, () => Array(10).fill(null))
   }
 
-  function placeShipsHorizontally(ship) {
+  function placeShipsHorizontally(ship,[x,y]) {
     const length = ship.shipLength()
-    let [x, y] = generateRandomCoordinates()
-    while (
-      !isValidHorizontalBoundary(x, y, length || !isNonOverlappingHorizontally(x, y, board, length))
-    ) {
-      let newCoord = generateRandomCoordinates()
-      x = newCoord[0]
-      y = newCoord[1]
+    // let [x, y] = generateRandomCoordinates()
+    // while (
+    //   !isValidHorizontalBoundary(x, y, length || !isNonOverlappingHorizontally(x, y, board, length))
+    // ) {
+    //   let newCoord = generateRandomCoordinates()
+    //   x = newCoord[0]
+    //   y = newCoord[1]
+    // }
+    if(isValidHorizontalBoundary(x,y,length) && isNonOverlappingHorizontally(x, y, board, length)){
+      for (let i = 0; i < length; i++) {
+        board[x][y + i] = ship
+      }
     }
-    for (let i = 0; i < length; i++) {
-      board[x][y + i] = ship
-    }
+   
   }
 
   function receiveAttack(x, y) {

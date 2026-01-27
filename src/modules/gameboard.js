@@ -48,11 +48,11 @@ export default function GameBoard() {
   function receiveAttack(x, y) {
     if(!isAlreadyInteracted(x,y)){
       if (board[x][y] !== null) {
-      const currShip = board[x][y]
-      hitCoord.push([x,y])
-      currShip.hit()
+        const currShip = board[x][y]
+        hitCoord.push([x,y])
+        currShip.hit()
       }else {
-      missedCoord.push([x,y])
+        missedCoord.push([x,y])
       }
     }
     

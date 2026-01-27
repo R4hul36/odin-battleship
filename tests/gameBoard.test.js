@@ -4,10 +4,12 @@ import generateRandomCoordinates from '../src/utils/generateCoordinates'
 
 jest.mock('../src/utils/generateCoordinates', () => jest.fn(() => [0, 4]))
 
-let newBoard = GameBoard()
+
 
 describe('Gameboard', () => {
+  let newBoard
   beforeEach(() => {
+    newBoard = GameBoard()
     newBoard.createBoard()
   })
   it('check if ship receives damage correctly', () => {
@@ -20,7 +22,7 @@ describe('Gameboard', () => {
 
   it('check if a ship is sunk', () => {
     const newShip = Ship(1)
-    newBoard.placeShipsHorizontally(newShip, [0,4])
+    newBoard.placeShipsHorizontally(newShip, [0, 4])
     newBoard.receiveAttack(0, 4)
     expect(newShip.isSunk()).toBe(true)
   })

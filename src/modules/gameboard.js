@@ -7,6 +7,7 @@ import isNonOverlappingHorizontally from '../utils/checkOverlap'
 export default function GameBoard() {
   let board
   let missedCoord = []
+  let hitCoord = []
   function createBoard() {
     board = Array.from({ length: 10 }, () => Array(10).fill(null))
   }
@@ -34,6 +35,7 @@ export default function GameBoard() {
   function receiveAttack(x, y) {
     if (board[x][y] !== null) {
       const currShip = board[x][y]
+      hitCoord.push([x,y])
       currShip.hit()
     }else {
       missedCoord.push([x,y])
@@ -59,11 +61,44 @@ export default function GameBoard() {
     return missedCoord
   }
 
+  function isShip(x,y) {
+    return board[x][y] !== null
+  }
+
+  function isHit(x,y) {
+    let hit = hitCoord
+    let isShipHit = false
+    for(let i = 0; i<hit.length; i++) {
+      const[hitX, hitY] = hit[i]
+      if(hitX === x && hitY === y){
+        isShipHit= true
+        break
+      }
+    }
+    return isShipHit
+  }
+
+  function isMiss(x,y) {
+    let missed = missedCoord
+    let isMissed = false
+    for(let i = 0; i<missed.length; i++) {
+      const[missX, missY] = missed[i]
+      if(missX === x && missY === y){
+        isMissed = true
+        break
+      }
+    }
+    return isMissed
+  }
+
   return {
     createBoard,
     placeShipsHorizontally,
     receiveAttack,
     checkMissedCoord,
-    allShipsSunk
+    allShipsSunk,
+    isShip,
+    isMiss,
+    isHit
   }
 }

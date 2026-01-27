@@ -24,11 +24,26 @@ export default function Player(name) {
     return board.missedCoord()
   }
 
+  function isShip(x,y) {
+    return board.isShip()
+  }
+
+   function isMiss(x,y) {
+    return board.isMiss()
+  }
+
+   function isHit(x,y) {
+    return board.isHit()
+  }
+  
   return {
     getPlayerName,
     placeShipsHorizontally,
     receiveAttack,
     allShipsSunk,
     missedCoord,
+    isShip,
+    isMiss,
+    isHit
   }
 }

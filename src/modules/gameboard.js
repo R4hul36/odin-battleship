@@ -32,14 +32,30 @@ export default function GameBoard() {
    
   }
 
+  function isAlreadyInteracted (x,y) {
+    let isInteracted = false
+    let attackedCells = [...missedCoord, ...hitCoord]
+    for(let i = 0; i<attackedCells.length; i++) {
+      const[attackedX,attackedY] = attackedCells[i]
+      if(attackedX === x && attackedY === y){
+        isInteracted = true
+        break
+      }
+    }
+    return isInteracted
+  }
+
   function receiveAttack(x, y) {
-    if (board[x][y] !== null) {
+    if(!isAlreadyInteracted(x,y)){
+      if (board[x][y] !== null) {
       const currShip = board[x][y]
       hitCoord.push([x,y])
       currShip.hit()
-    }else {
+      }else {
       missedCoord.push([x,y])
+      }
     }
+    
   }
 
   function allShipsSunk() {

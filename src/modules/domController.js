@@ -18,9 +18,7 @@ function renderHumanBoard(human) {
       const cell = document.createElement('div')
       cell.classList.add('cell')
       container.appendChild(cell)
-      cell.addEventListener('click', (e) => {
-        humanPlayer.receiveAttack(i, j)
-      })
+      cell.dataset.coords = `${i},${j}`
     }
   }
 }

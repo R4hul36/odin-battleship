@@ -1,7 +1,7 @@
-import Ship from './ship'
-import generateRandomCoordinates from '../utils/generateCoordinates'
-import isValidHorizontalBoundary from '../utils/checkBoundary'
-import isNonOverlappingHorizontally from '../utils/checkOverlap'
+import Ship from './ship.js'
+import generateRandomCoordinates from '../utils/generateCoordinates.js'
+import isValidHorizontalBoundary from '../utils/checkBoundary.js'
+import isNonOverlappingHorizontally from '../utils/checkOverlap.js'
 
 
 export default function GameBoard() {

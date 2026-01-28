@@ -1,4 +1,4 @@
-import GameBoard from './gameboard'
+import GameBoard from './gameboard.js'
 
 export default function Player(name) {
   const board = GameBoard()
@@ -8,8 +8,8 @@ export default function Player(name) {
     return name
   }
 
-  function placeShipsHorizontally(ship) {
-    board.placeShipsHorizontally(ship)
+  function placeShipsHorizontally(ship, coord) {
+    board.placeShipsHorizontally(ship, coord)
   }
 
   function receiveAttack(x, y) {

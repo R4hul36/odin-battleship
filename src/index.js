@@ -1,4 +1,4 @@
-import renderHumanBoard from './modules/domController.js'
+import { container } from "./modules/domController.js"
 
 
 const gameContainer = document.querySelector(".main")
@@ -6,10 +6,7 @@ const gameContainer = document.querySelector(".main")
 const txt = document.createElement("p")
 txt.textContent = "hiii"
 
-const humanBoard = document.querySelector('.hum-container')
-gameContainer.appendChild(renderHumanBoard())
+gameContainer.appendChild(container)
 
 
-
-console.log(renderHumanBoard());
 

@@ -21,19 +21,19 @@ export default function Player(name) {
   }
 
   function missedCoord() {
-    return board.missedCoord()
+    return board.checkMissedCoord()
   }
 
   function isShip(x,y) {
-    return board.isShip()
+    return board.isShip(x,y)
   }
 
    function isMiss(x,y) {
-    return board.isMiss()
+    return board.isMiss(x,y)
   }
 
    function isHit(x,y) {
-    return board.isHit()
+    return board.isHit(x,y)
   }
   
   return {

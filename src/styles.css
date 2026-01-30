@@ -18,11 +18,10 @@ body {
 .hum-container {
     height: 400px;
     width: 400px;
-    border: 1px solid black;
-    border-collapse: collapse;
+    border: 0.5px solid black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
 }
 .cell {
-   border: 1px solid black;
+   border: 0.5px solid black;
 }

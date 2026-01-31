@@ -1,6 +1,5 @@
 import { container } from "./modules/domController.js"
 
-
 const gameContainer = document.querySelector(".main")
 
 const txt = document.createElement("p")

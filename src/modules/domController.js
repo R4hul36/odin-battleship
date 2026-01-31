@@ -1,13 +1,13 @@
 import Player from './player.js'
 import GameBoard from './gameboard.js'
 import Ship from './ship.js'
+import { humanPlayer } from './game.js'
 
-const humanPlayer = Player('Human')
-const ship1 = Ship(3)
-humanPlayer.placeShipsHorizontally(ship1, [1,2])
+
 
 export const container = document.createElement('div')
 container.classList.add('hum-container')
+renderGameBoard(humanPlayer)
 container.addEventListener("click", (e) => {
     if(e.target.classList.contains("cell")){
       const [x,y] = e.target.dataset.coords.split(',')
@@ -43,6 +43,6 @@ export default function renderGameBoard(player) {
   
 }
 
-renderGameBoard(humanPlayer)
+
 
 const computerPlayer = Player('Computer')

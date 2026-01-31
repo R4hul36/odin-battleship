@@ -78,8 +78,7 @@ export default function GameBoard() {
   }
 
   function isShipSunk (x,y) {
-    const ship = board[x][y]
-    return ship.isSunk()
+    return board[x][y]!==null ? board[x][y].isSunk(): false
   }
 
   function isShip(x,y) {

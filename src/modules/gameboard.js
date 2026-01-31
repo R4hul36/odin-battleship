@@ -77,6 +77,11 @@ export default function GameBoard() {
     return missedCoord
   }
 
+  function isShipSunk (x,y) {
+    const ship = board[x][y]
+    return ship.isSunk()
+  }
+
   function isShip(x,y) {
     return board[x][y] !== null
   }
@@ -115,6 +120,7 @@ export default function GameBoard() {
     allShipsSunk,
     isShip,
     isMiss,
-    isHit
+    isHit,
+    isShipSunk
   }
 }

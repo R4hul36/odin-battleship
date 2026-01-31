@@ -24,6 +24,10 @@ export default function Player(name) {
     return board.checkMissedCoord()
   }
 
+  function isShipSunk (x, y) {
+    return board.isShipSunk(x, y)
+  }
+
   function isShip(x,y) {
     return board.isShip(x,y)
   }
@@ -42,6 +46,7 @@ export default function Player(name) {
     receiveAttack,
     allShipsSunk,
     missedCoord,
+    isShipSunk,
     isShip,
     isMiss,
     isHit

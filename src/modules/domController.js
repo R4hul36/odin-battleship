@@ -9,14 +9,16 @@ humanPlayer.placeShipsHorizontally(ship1, [1,2])
 export const container = document.createElement('div')
 container.classList.add('hum-container')
 container.addEventListener("click", (e) => {
-    const [x,y] = e.target.dataset.coords.split(',')
-    console.log(x,y);
-    humanPlayer.receiveAttack(Number(x),Number(y))
-    container.innerHTML = ""
-    renderHumanBoard(humanPlayer)
+    if(e.target.classList.contains("cell")){
+      const [x,y] = e.target.dataset.coords.split(',')
+      humanPlayer.receiveAttack(Number(x),Number(y))
+      console.log(x,y);
+      container.innerHTML = ""
+      renderGameBoard(humanPlayer)
+    }  
 })
 
-export default function renderHumanBoard(human) {
+export default function renderGameBoard(player) {
   const boardWidth = 10
   const boardHeight = 10
   console.log("sdfsdfsdf")
@@ -26,12 +28,12 @@ export default function renderHumanBoard(human) {
       
       const cell = document.createElement('div')
       cell.classList.add('cell')
-      if(human.isHit(i,j)){
+      if(player.isHit(i,j)){
         console.log("hittt");
         cell.classList.add('ship-hit')
-      }else if (human.isMiss(i,j)){
+      }else if (player.isMiss(i,j)){
         cell.classList.add('miss')
-      }else if(human.isShip(i,j)){
+      }else if(player.isShip(i,j)){
         cell.classList.add('ship')
       }
       container.appendChild(cell)
@@ -41,6 +43,6 @@ export default function renderHumanBoard(human) {
   
 }
 
-renderHumanBoard(humanPlayer)
+renderGameBoard(humanPlayer)
 
 const computerPlayer = Player('Computer')

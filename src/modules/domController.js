@@ -1,18 +1,20 @@
 import Player from './player.js'
 import GameBoard from './gameboard.js'
 import Ship from './ship.js'
-import { computerPlayer, humanPlayer } from './game.js'
+import gameEngine, { computerPlayer, humanPlayer } from './game.js'
 
+const engine = gameEngine()
 export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
 computerBoard.addEventListener('click', (e) => {
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
-    computerPlayer.receiveAttack(Number(x), Number(y))
+    engine.humanAttack(x,y)
     console.log(x, y)
     computerBoard.innerHTML = ''
     renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
+    // make computerTurn true, disable the computer board,
   }
 })
 

@@ -4,7 +4,7 @@ import Ship from './ship.js'
 import { computerPlayer, humanPlayer } from './game.js'
 
 export const computerBoard = document.createElement('div')
-computerBoard.classList.add('hum-container')
+computerBoard.classList.add('computer-container')
 renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
 computerBoard.addEventListener('click', (e) => {
   if (e.target.classList.contains('cell')) {
@@ -12,9 +12,13 @@ computerBoard.addEventListener('click', (e) => {
     computerPlayer.receiveAttack(Number(x), Number(y))
     console.log(x, y)
     computerBoard.innerHTML = ''
-    renderGameBoard(computerPlayer, computerBoard, { hideShip: false })
+    renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
   }
 })
+
+export const humanBoard = document.createElement('div')
+humanBoard.classList.add('hum-container')
+renderGameBoard(humanPlayer, humanBoard, { hideShip: false })
 
 export default function renderGameBoard(player, container, { hideShip }) {
   const boardWidth = 10

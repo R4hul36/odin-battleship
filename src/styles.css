@@ -13,9 +13,14 @@ body {
   height: 100vh;
   margin: auto;
   background-color: white;
+  display: flex;
+  gap: 100px;
+  justify-content: center;
+  align-items: center;
 }
 
-.hum-container {
+.hum-container,
+.computer-container {
   height: 400px;
   width: 400px;
   border: 0.5px solid black;
@@ -32,6 +37,10 @@ body {
 
 .cell p {
   color: red;
+}
+
+.ship {
+  background-color: greenyellow;
 }
 
 .ship-sunk {

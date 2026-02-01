@@ -1,11 +1,6 @@
-import {computerBoard } from "./modules/domController.js"
+import { computerBoard, humanBoard } from './modules/domController.js'
 
-const gameContainer = document.querySelector(".main")
+const gameContainer = document.querySelector('.main')
 
-const txt = document.createElement("p")
-txt.textContent = "hiii"
-
+gameContainer.appendChild(humanBoard)
 gameContainer.appendChild(computerBoard)
-
-
-

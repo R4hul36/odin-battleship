@@ -54,8 +54,9 @@ export default function GameBoard() {
       }else {
         missedCoord.push([x,y])
       }
+      return true
     }
-    
+    return false  
   }
 
   function allShipsSunk() {

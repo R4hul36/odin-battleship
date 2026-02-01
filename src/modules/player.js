@@ -13,7 +13,7 @@ export default function Player(name) {
   }
 
   function receiveAttack(x, y) {
-    board.receiveAttack(x, y)
+    return board.receiveAttack(x, y)
   }
 
   function allShipsSunk() {

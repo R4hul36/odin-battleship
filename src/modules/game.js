@@ -1,6 +1,7 @@
 import Ship from './ship.js'
 import Player from './player.js'
 import renderGameBoard from './domController.js'
+import generateRandomCoordinates from '../utils/generateCoordinates.js'
 
     
 export const humanPlayer = Player('Human')
@@ -19,9 +20,24 @@ export default function gameEngine () {
     function humanAttack (x,y) {
         if(gameStart && humanTurn) {
             computerPlayer.receiveAttack(Number(x), Number(y))
+            humanTurn = false
+            computerTurn = true
         }
     }
+    function computerAttack () {
+        if(gameStart&&computerTurn) {
+            let [x,y] = generateRandomCoordinates()
+            while(!humanPlayer.receiveAttack(x,y)){
+                console.log("attacks")
+                ;[x,y] =generateRandomCoordinates()
+            }
+            humanTurn = true
+            computerTurn = false
+        }
+    }
+
     return {
         humanAttack,
+        computerAttack
     }
 }

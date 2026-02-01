@@ -7,6 +7,11 @@ const engine = gameEngine()
 export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
+
+export const humanBoard = document.createElement('div')
+humanBoard.classList.add('hum-container')
+renderGameBoard(humanPlayer, humanBoard, { hideShip: false })
+
 computerBoard.addEventListener('click', (e) => {
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
@@ -15,12 +20,13 @@ computerBoard.addEventListener('click', (e) => {
     computerBoard.innerHTML = ''
     renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
     // make computerTurn true, disable the computer board,
+    engine.computerAttack()
+    humanBoard.innerHTML = ''
+    renderGameBoard(humanPlayer, humanBoard, { hideShip: false })
   }
 })
 
-export const humanBoard = document.createElement('div')
-humanBoard.classList.add('hum-container')
-renderGameBoard(humanPlayer, humanBoard, { hideShip: false })
+
 
 export default function renderGameBoard(player, container, { hideShip }) {
   const boardWidth = 10

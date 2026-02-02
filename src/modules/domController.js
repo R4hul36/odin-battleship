@@ -4,18 +4,19 @@ import Ship from './ship.js'
 import gameEngine, { computerPlayer, humanPlayer } from './game.js'
 
 const engine = gameEngine()
-export const computerBoard = document.createElement('div')
-computerBoard.classList.add('computer-container')
-renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
 
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
 renderGameBoard(humanPlayer, humanBoard, { hideShip: false })
 
+export const computerBoard = document.createElement('div')
+computerBoard.classList.add('computer-container')
+renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
+
 computerBoard.addEventListener('click', (e) => {
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
-    engine.humanAttack(x,y)
+    engine.humanAttack(x, y)
     console.log(x, y)
     computerBoard.innerHTML = ''
     renderGameBoard(computerPlayer, computerBoard, { hideShip: true })
@@ -23,10 +24,11 @@ computerBoard.addEventListener('click', (e) => {
     engine.computerAttack()
     humanBoard.innerHTML = ''
     renderGameBoard(humanPlayer, humanBoard, { hideShip: false })
+    if (engine.checkWinner()) {
+      alert('winnnn')
+    }
   }
 })
-
-
 
 export default function renderGameBoard(player, container, { hideShip }) {
   const boardWidth = 10

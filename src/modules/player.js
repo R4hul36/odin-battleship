@@ -24,22 +24,22 @@ export default function Player(name) {
     return board.checkMissedCoord()
   }
 
-  function isShipSunk (x, y) {
+  function isShipSunk(x, y) {
     return board.isShipSunk(x, y)
   }
 
-  function isShip(x,y) {
-    return board.isShip(x,y)
+  function isShip(x, y) {
+    return board.isShip(x, y)
   }
 
-   function isMiss(x,y) {
-    return board.isMiss(x,y)
+  function isMiss(x, y) {
+    return board.isMiss(x, y)
   }
 
-   function isHit(x,y) {
-    return board.isHit(x,y)
+  function isHit(x, y) {
+    return board.isHit(x, y)
   }
-  
+
   return {
     getPlayerName,
     placeShipsHorizontally,
@@ -49,6 +49,6 @@ export default function Player(name) {
     isShipSunk,
     isShip,
     isMiss,
-    isHit
+    isHit,
   }
 }

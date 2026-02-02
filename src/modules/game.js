@@ -3,19 +3,33 @@ import Player from './player.js'
 import renderGameBoard from './domController.js'
 import generateRandomCoordinates from '../utils/generateCoordinates.js'
 
-export const humanPlayer = Player('Human')
-const ship1 = Ship(3)
-humanPlayer.placeShipsHorizontally(ship1, [1, 2])
 
-export const computerPlayer = Player('Computer')
-const ship2 = Ship(3)
-computerPlayer.placeShipsHorizontally(ship2, [4, 1])
 
 export default function gameEngine() {
   let gameRunning = true
   let computerTurn = false
   let humanTurn = true
-  let winner = ''
+  let winner = null
+  let humanPlayer
+  let computerPlayer
+
+  function startGame() {
+    humanPlayer = Player('Human')
+    const ship1 = Ship(7)
+    humanPlayer.placeShipsHorizontally(ship1, [1, 2])
+
+    computerPlayer = Player('Computer')
+    const ship2 = Ship(3)
+    computerPlayer.placeShipsHorizontally(ship2, [4, 1])
+  }
+
+  function getHumanPlayer () {
+    return humanPlayer
+  }
+
+  function getComputerPlayer () {
+    return computerPlayer
+  }
 
   function humanAttack(x, y) {
     if (gameRunning && humanTurn) {
@@ -44,9 +58,20 @@ export default function gameEngine() {
     }
   }
 
+  function resetGame () {
+    startGame()
+    gameRunning = true
+    humanTurn = true
+    winner = null
+  }
+
   return {
+    startGame,
+    getHumanPlayer,
+    getComputerPlayer,
     humanAttack,
     computerAttack,
     checkWinner,
+    resetGame
   }
 }

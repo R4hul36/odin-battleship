@@ -63,7 +63,7 @@ export default function GameBoard() {
   function allShipsSunk() {
     let shipsSunk = true
     for (const row of board) {
-      console.log(row)
+      
       for (const tile of row) {
         if (tile !== null) {
           if (tile.isSunk() === false) {

@@ -5,8 +5,6 @@ import gameEngine from './game.js'
 
 const engine = gameEngine()
 engine.startGame()
-console.log(engine.getHumanPlayer());
-
 
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
@@ -17,28 +15,38 @@ computerBoard.classList.add('computer-container')
 renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
 
 computerBoard.addEventListener('click', (e) => {
+  if (!engine.isGameRunning()) {
+    return
+  }
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
     engine.humanAttack(x, y)
     console.log(x, y)
     computerBoard.innerHTML = ''
-    renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
+    renderGameBoard(engine.getComputerPlayer(), computerBoard, {
+      hideShip: true,
+    })
+    if (engine.checkWinner().status) {
+      console.log(`game finishes ${engine.checkWinner().winner} won the game`)
+    }
     // make computerTurn true, disable the computer board,
-    setTimeout(()=> {
+    setTimeout(() => {
       engine.computerAttack()
       humanBoard.innerHTML = ''
-      renderGameBoard(engine.getHumanPlayer(), humanBoard, { hideShip: false })
+      renderGameBoard(engine.getHumanPlayer(), humanBoard, {
+        hideShip: false,
+      })
     }, 300)
-   
-    
-  }
-  setTimeout(()=> {
-    if (engine.checkWinner()) {
-      console.log('someone won')
+    if (engine.checkWinner().status) {
+      console.log(`game finishes ${engine.checkWinner().winner} won the game`)
     }
-  }, 100)
-  
+  }
 })
+
+function newGame() {
+  if (engine.checkWinner()) {
+  }
+}
 
 export default function renderGameBoard(player, container, { hideShip }) {
   const boardWidth = 10
@@ -70,9 +78,3 @@ export default function renderGameBoard(player, container, { hideShip }) {
     }
   }
 }
-
-setInterval(()=> {
-  console.log("resettt")
-  engine.resetGame()
-  
-}, 5000)

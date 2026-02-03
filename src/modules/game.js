@@ -3,8 +3,6 @@ import Player from './player.js'
 import renderGameBoard from './domController.js'
 import generateRandomCoordinates from '../utils/generateCoordinates.js'
 
-
-
 export default function gameEngine() {
   let gameRunning = true
   let computerTurn = false
@@ -23,19 +21,20 @@ export default function gameEngine() {
     computerPlayer.placeShipsHorizontally(ship2, [4, 1])
   }
 
-  function getHumanPlayer () {
+  function getHumanPlayer() {
     return humanPlayer
   }
 
-  function getComputerPlayer () {
+  function getComputerPlayer() {
     return computerPlayer
   }
 
   function humanAttack(x, y) {
     if (gameRunning && humanTurn) {
-      computerPlayer.receiveAttack(Number(x), Number(y))
-      humanTurn = false
-      computerTurn = true
+      if (computerPlayer.receiveAttack(Number(x), Number(y))) {
+        humanTurn = false
+        computerTurn = true
+      }
     }
   }
   function computerAttack() {
@@ -51,17 +50,32 @@ export default function gameEngine() {
   }
 
   function checkWinner() {
-    if (computerPlayer.allShipsSunk()) {
+    let status = false
+
+    if (computerPlayer.allShipsSunk() || humanPlayer.allShipsSunk()) {
       gameRunning = false
-      winner = humanPlayer.getPlayerName()
-      return true
+      status = true
+    }
+    if (computerPlayer.allShipsSunk()) {
+      winner = 'human'
+    } else if (humanPlayer.allShipsSunk()) {
+      winner = 'computer'
+    }
+    return {
+      status,
+      winner,
     }
   }
 
-  function resetGame () {
+  function isGameRunning() {
+    return gameRunning
+  }
+
+  function resetGame() {
     startGame()
     gameRunning = true
     humanTurn = true
+    computerTurn = false
     winner = null
   }
 
@@ -72,6 +86,7 @@ export default function gameEngine() {
     humanAttack,
     computerAttack,
     checkWinner,
-    resetGame
+    resetGame,
+    isGameRunning,
   }
 }

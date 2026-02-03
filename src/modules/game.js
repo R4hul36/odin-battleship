@@ -38,6 +38,7 @@ export default function gameEngine() {
       }
       return false
     }
+    return false
   }
   function computerAttack() {
     if (gameRunning && computerTurn) {

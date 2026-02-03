@@ -23,7 +23,6 @@ computerBoard.addEventListener('click', (e) => {
     if (!engine.humanAttack(x, y)) {
       return
     }
-    console.log(x, y)
     computerBoard.innerHTML = ''
     renderGameBoard(engine.getComputerPlayer(), computerBoard, {
       hideShip: true,

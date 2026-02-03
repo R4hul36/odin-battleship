@@ -60,9 +60,9 @@ export default function gameEngine() {
       status = true
     }
     if (computerPlayer.allShipsSunk()) {
-      winner = 'human'
+      winner = 'Human'
     } else if (humanPlayer.allShipsSunk()) {
-      winner = 'computer'
+      winner = 'Computer'
     }
     return {
       status,

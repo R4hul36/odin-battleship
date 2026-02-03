@@ -23,33 +23,59 @@ computerBoard.addEventListener('click', (e) => {
     if (!engine.humanAttack(x, y)) {
       return
     }
-    computerBoard.innerHTML = ''
     renderGameBoard(engine.getComputerPlayer(), computerBoard, {
       hideShip: true,
     })
     if (engine.checkWinner().status) {
       console.log(`game finishes ${engine.checkWinner().winner} won the game`)
+      gameResult(engine.checkWinner().winner)
+     
     }
     // make computerTurn true, disable the computer board,
     setTimeout(() => {
       engine.computerAttack()
-      humanBoard.innerHTML = ''
       renderGameBoard(engine.getHumanPlayer(), humanBoard, {
         hideShip: false,
       })
+      if (engine.checkWinner().status && engine.checkWinner().winner === "Computer" ) {
+        gameResult(engine.checkWinner().winner)
+        console.log(`game finishes ${engine.checkWinner().winner} won the game`)
+      }
     }, 300)
-    if (engine.checkWinner().status) {
-      console.log(`game finishes ${engine.checkWinner().winner} won the game`)
-    }
+    
   }
 })
 
-function newGame() {
-  if (engine.checkWinner()) {
-  }
+function gameResult(player) {
+  const topContainer = document.querySelector('.top-section')
+  topContainer.innerHTML = ""
+  const msgContainer = document.createElement('div')
+  msgContainer.classList.add('msg-container')
+  const resultMsg = document.createElement("p")
+  resultMsg.classList.add('result-msg')
+  resultMsg.textContent = `Congrats ${player} has won!!`
+  const restartBtn = document.createElement('button')
+  restartBtn.textContent = "Restart"
+  restartBtn.classList.add('restart-btn')
+  restartBtn.addEventListener('click', (e) => {
+    topContainer.innerHTML=""
+    resetGame()
+  })
+
+  msgContainer.appendChild(resultMsg)
+  msgContainer.appendChild(restartBtn)
+  topContainer.appendChild(msgContainer)
 }
 
+function resetGame() {
+  engine.resetGame()
+  renderGameBoard(engine.getHumanPlayer(), humanBoard, { hideShip: false })
+  renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
+}
+
+
 export default function renderGameBoard(player, container, { hideShip }) {
+  container.innerHTML = ""
   const boardWidth = 10
   const boardHeight = 10
   console.log('sdfsdfsdf')

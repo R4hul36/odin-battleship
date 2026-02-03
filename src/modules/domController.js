@@ -20,7 +20,9 @@ computerBoard.addEventListener('click', (e) => {
   }
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
-    engine.humanAttack(x, y)
+    if (!engine.humanAttack(x, y)) {
+      return
+    }
     console.log(x, y)
     computerBoard.innerHTML = ''
     renderGameBoard(engine.getComputerPlayer(), computerBoard, {

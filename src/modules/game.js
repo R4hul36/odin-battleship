@@ -34,7 +34,9 @@ export default function gameEngine() {
       if (computerPlayer.receiveAttack(Number(x), Number(y))) {
         humanTurn = false
         computerTurn = true
+        return true
       }
+      return false
     }
   }
   function computerAttack() {

@@ -9,7 +9,10 @@ export default function Player(name) {
   }
 
   function placeShipsHorizontally(ship, coord) {
-    board.placeShipsHorizontally(ship, coord)
+    if(board.placeShipsHorizontally(ship, coord)) {
+      return true
+    }
+    return false
   }
 
   function receiveAttack(x, y) {

@@ -50,3 +50,7 @@ body {
 .ship-hit {
   text-align: center;
 }
+
+.miss {
+  background-color: lightblue;
+}

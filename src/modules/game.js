@@ -2,6 +2,7 @@ import Ship from './ship.js'
 import Player from './player.js'
 import renderGameBoard from './domController.js'
 import generateRandomCoordinates from '../utils/generateCoordinates.js'
+import { placeShips } from '../utils/placeShips.js'
 
 export default function gameEngine() {
   let gameRunning = true
@@ -13,12 +14,14 @@ export default function gameEngine() {
 
   function startGame() {
     humanPlayer = Player('Human')
-    const ship1 = Ship(7)
-    humanPlayer.placeShipsHorizontally(ship1, [1, 2])
+    // const ship1 = Ship(7)
+    // humanPlayer.placeShipsHorizontally(ship1, [1, 2])
+    placeShips(humanPlayer)
 
     computerPlayer = Player('Computer')
-    const ship2 = Ship(3)
-    computerPlayer.placeShipsHorizontally(ship2, [4, 1])
+    // const ship2 = Ship(3)
+    // computerPlayer.placeShipsHorizontally(ship2, [4, 1])
+    placeShips(computerPlayer)
   }
 
   function getHumanPlayer() {

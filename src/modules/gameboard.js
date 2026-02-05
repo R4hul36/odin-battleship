@@ -1,7 +1,7 @@
 import Ship from './ship.js'
-import generateRandomCoordinates from '../utils/generateCoordinates.js'
+import { generateRandomCoordinates } from '../utils/generateCoordinates.js'
 import isValidBoundary from '../utils/checkBoundary.js'
-import isNonOverlappingHorizontally from '../utils/checkOverlap.js'
+import isNonOverlapping from '../utils/checkOverlap.js'
 
 export default function GameBoard() {
   let board
@@ -11,11 +11,11 @@ export default function GameBoard() {
     board = Array.from({ length: 10 }, () => Array(10).fill(null))
   }
 
-  function placeShipsHorizontally(ship, [x, y], orientation) {
+  function placeShip(ship, [x, y], orientation) {
     const length = ship.shipLength()
     if (
       isValidBoundary(x, y, length, orientation) &&
-      isNonOverlappingHorizontally(x, y, board, length)
+      isNonOverlapping(x, y, board, length, orientation)
     ) {
       for (let i = 0; i < length; i++) {
         if (orientation === 'horizontal') {
@@ -110,7 +110,7 @@ export default function GameBoard() {
 
   return {
     createBoard,
-    placeShipsHorizontally,
+    placeShip,
     receiveAttack,
     checkMissedCoord,
     allShipsSunk,

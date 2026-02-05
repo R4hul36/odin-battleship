@@ -1,7 +1,7 @@
 import Ship from './ship.js'
 import Player from './player.js'
 import renderGameBoard from './domController.js'
-import generateRandomCoordinates from '../utils/generateCoordinates.js'
+import { generateRandomCoordinates } from '../utils/generateCoordinates.js'
 import { placeShips } from '../utils/placeShips.js'
 
 export default function gameEngine() {

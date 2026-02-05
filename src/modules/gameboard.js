@@ -1,6 +1,6 @@
 import Ship from './ship.js'
 import generateRandomCoordinates from '../utils/generateCoordinates.js'
-import isValidHorizontalBoundary from '../utils/checkBoundary.js'
+import isValidBoundary from '../utils/checkBoundary.js'
 import isNonOverlappingHorizontally from '../utils/checkOverlap.js'
 
 export default function GameBoard() {
@@ -11,22 +11,18 @@ export default function GameBoard() {
     board = Array.from({ length: 10 }, () => Array(10).fill(null))
   }
 
-  function placeShipsHorizontally(ship, [x, y]) {
+  function placeShipsHorizontally(ship, [x, y], orientation) {
     const length = ship.shipLength()
-    // let [x, y] = generateRandomCoordinates()
-    // while (
-    //   !isValidHorizontalBoundary(x, y, length || !isNonOverlappingHorizontally(x, y, board, length))
-    // ) {
-    //   let newCoord = generateRandomCoordinates()
-    //   x = newCoord[0]
-    //   y = newCoord[1]
-    // }
     if (
-      isValidHorizontalBoundary(x, y, length) &&
+      isValidBoundary(x, y, length, orientation) &&
       isNonOverlappingHorizontally(x, y, board, length)
     ) {
       for (let i = 0; i < length; i++) {
-        board[x][y + i] = ship
+        if (orientation === 'horizontal') {
+          board[x][y + i] = ship
+        } else if (orientation === 'vertical') {
+          board[x + i][y] = ship
+        }
       }
       return true
     }
@@ -63,7 +59,6 @@ export default function GameBoard() {
   function allShipsSunk() {
     let shipsSunk = true
     for (const row of board) {
-      
       for (const tile of row) {
         if (tile !== null) {
           if (tile.isSunk() === false) {

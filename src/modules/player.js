@@ -8,8 +8,8 @@ export default function Player(name) {
     return name
   }
 
-  function placeShipsHorizontally(ship, coord) {
-    if(board.placeShipsHorizontally(ship, coord)) {
+  function placeShipsHorizontally(ship, coord, orientation) {
+    if (board.placeShipsHorizontally(ship, coord, orientation)) {
       return true
     }
     return false

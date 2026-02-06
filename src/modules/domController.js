@@ -19,9 +19,10 @@ renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
 export const overlay = renderOverlay()
 
 computerBoard.addEventListener('click', (e) => {
-  if (!engine.isGameRunning()) {
+  if (engine.currGamePhase() === 'gameover') {
     return
   }
+
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
     if (!engine.humanAttack(x, y)) {
@@ -68,10 +69,22 @@ function gameResult(player) {
     overlay.classList.remove('visible')
     resetGame()
   })
-
   msgContainer.appendChild(resultMsg)
   msgContainer.appendChild(restartBtn)
   overlay.appendChild(msgContainer)
+}
+
+function initialSetup () {
+  overlay.innerHTML = ''
+  const setUpContainer = document.createElement('div')
+  setUpContainer.classList.add('setup-container')
+  const nameLabel = document.createElement('label')
+  const nameInput = document.createElement('input')
+  nameLabel.textContent = 'Name: '
+  
+
+
+
 }
 
 function resetGame() {

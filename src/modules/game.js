@@ -4,7 +4,7 @@ import { generateRandomCoordinates } from '../utils/generateCoordinates.js'
 import { placeShips } from '../utils/placeShips.js'
 
 export default function gameEngine() {
-  let gameRunning = true
+  let gamePhase = 'running'
   let computerTurn = false
   let humanTurn = true
   let winner = null
@@ -32,7 +32,7 @@ export default function gameEngine() {
   }
 
   function humanAttack(x, y) {
-    if (gameRunning && humanTurn) {
+    if (gamePhase === 'running' && humanTurn) {
       if (computerPlayer.receiveAttack(Number(x), Number(y))) {
         humanTurn = false
         computerTurn = true
@@ -43,7 +43,7 @@ export default function gameEngine() {
     return false
   }
   function computerAttack() {
-    if (gameRunning && computerTurn) {
+    if (gamePhase === 'running' && computerTurn) {
       let [x, y] = generateRandomCoordinates()
       while (!humanPlayer.receiveAttack(x, y)) {
         console.log('attacks')
@@ -58,7 +58,7 @@ export default function gameEngine() {
     let status = false
 
     if (computerPlayer.allShipsSunk() || humanPlayer.allShipsSunk()) {
-      gameRunning = false
+      gamePhase = 'gameover'
       status = true
     }
     if (computerPlayer.allShipsSunk()) {
@@ -72,13 +72,13 @@ export default function gameEngine() {
     }
   }
 
-  function isGameRunning() {
-    return gameRunning
+  function currGamePhase() {
+    return gamePhase
   }
 
   function resetGame() {
     startGame()
-    gameRunning = true
+    gamePhase = 'running'
     humanTurn = true
     computerTurn = false
     winner = null
@@ -92,6 +92,6 @@ export default function gameEngine() {
     computerAttack,
     checkWinner,
     resetGame,
-    isGameRunning,
+    currGamePhase
   }
 }

@@ -3,9 +3,10 @@ import GameBoard from './gameboard.js'
 import Ship from './ship.js'
 import gameEngine from './game.js'
 import renderGameBoard from './renderBoard.js'
+import renderOverlay from './renderOverlay.js'
 
-const engine = gameEngine()
-engine.startGame('manual')
+const engine = gameEngine() 
+engine.startGame('auto')
 
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
@@ -14,6 +15,8 @@ renderGameBoard(engine.getHumanPlayer(), humanBoard, { hideShip: false })
 export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
+
+export const overlay = renderOverlay()
 
 computerBoard.addEventListener('click', (e) => {
   if (!engine.isGameRunning()) {
@@ -30,6 +33,7 @@ computerBoard.addEventListener('click', (e) => {
     if (engine.checkWinner().status) {
       console.log(`game finishes ${engine.checkWinner().winner} won the game`)
       gameResult(engine.checkWinner().winner)
+      overlay.classList.add('visible')
     }
     // make computerTurn true, disable the computer board,
     setTimeout(() => {
@@ -49,8 +53,8 @@ computerBoard.addEventListener('click', (e) => {
 })
 
 function gameResult(player) {
-  const topContainer = document.querySelector('.top-section')
-  topContainer.innerHTML = ''
+  //const topContainer = document.querySelector('.top-section')
+  overlay.innerHTML = ''
   const msgContainer = document.createElement('div')
   msgContainer.classList.add('msg-container')
   const resultMsg = document.createElement('p')
@@ -60,13 +64,14 @@ function gameResult(player) {
   restartBtn.textContent = 'Restart'
   restartBtn.classList.add('restart-btn')
   restartBtn.addEventListener('click', (e) => {
-    topContainer.innerHTML = ''
+    overlay.innerHTML = ''
+    overlay.classList.remove('visible')
     resetGame()
   })
 
   msgContainer.appendChild(resultMsg)
   msgContainer.appendChild(restartBtn)
-  topContainer.appendChild(msgContainer)
+  overlay.appendChild(msgContainer)
 }
 
 function resetGame() {

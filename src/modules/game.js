@@ -4,14 +4,14 @@ import { generateRandomCoordinates } from '../utils/generateCoordinates.js'
 import { placeShips } from '../utils/placeShips.js'
 
 export default function gameEngine() {
-  let gameRunning = false
+  let gameRunning = true
   let computerTurn = false
   let humanTurn = true
   let winner = null
   let humanPlayer
   let computerPlayer
 
-  function startGame(mode) {
+  function startGame(mode="auto") {
     humanPlayer = Player('Human')
     // const ship1 = Ship(7)
     // humanPlayer.placeShipsHorizontally(ship1, [1, 2])

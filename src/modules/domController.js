@@ -8,6 +8,10 @@ import renderOverlay from './renderOverlay.js'
 const engine = gameEngine() 
 engine.startGame('auto')
 
+export const overlay = renderOverlay()
+overlay.classList.add('visible')
+initialSetupModal()
+
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
 renderGameBoard(engine.getHumanPlayer(), humanBoard, { hideShip: false })
@@ -16,7 +20,7 @@ export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
 
-export const overlay = renderOverlay()
+
 
 computerBoard.addEventListener('click', (e) => {
   if (engine.currGamePhase() === 'gameover') {
@@ -74,15 +78,34 @@ function gameResult(player) {
   overlay.appendChild(msgContainer)
 }
 
-function initialSetup () {
+function initialSetupModal () {
   overlay.innerHTML = ''
   const setUpContainer = document.createElement('div')
   setUpContainer.classList.add('setup-container')
   const nameLabel = document.createElement('label')
   const nameInput = document.createElement('input')
   nameLabel.textContent = 'Name: '
-  
+  nameInput.value = "Human"
+  const selectionSection = document.createElement('div')
+  selectionSection.classList.add('selection')
+  const txt = document.createElement('p')
+  txt.textContent = "Choose how to place the ships: "
+  const manual = document.createElement('button')
+  manual.textContent = "Manual"
+  const automatic = document.createElement('button')
+  automatic.textContent = "Automatic"
 
+  selectionSection.appendChild(txt)
+  selectionSection.appendChild(manual)
+  selectionSection.appendChild(automatic)
+  
+ 
+
+  setUpContainer.appendChild(nameLabel)
+  setUpContainer.appendChild(nameInput)
+  setUpContainer.appendChild(selectionSection)
+  
+  overlay.appendChild(setUpContainer)
 
 
 }

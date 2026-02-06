@@ -55,7 +55,7 @@ body {
   background-color: lightblue;
 }
 
-.msg-container {
+.msg-container, .setup-container {
   background-color: white;
   padding: 30px;
 }

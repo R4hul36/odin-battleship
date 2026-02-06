@@ -4,7 +4,7 @@ import { generateRandomCoordinates } from '../utils/generateCoordinates.js'
 import { placeShips } from '../utils/placeShips.js'
 
 export default function gameEngine() {
-  let gamePhase = 'running'
+  let gamePhase = 'setup'
   let computerTurn = false
   let humanTurn = true
   let winner = null

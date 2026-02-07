@@ -13,17 +13,16 @@ export default function gameEngine() {
 
   function startGame(mode) {
     humanPlayer = Player('Human')
-    // const ship1 = Ship(7)
-    // humanPlayer.placeShipsHorizontally(ship1, [1, 2])
+
     if (mode === 'auto') {
       placeShips(humanPlayer)
-      gamePhase = 'running'
     } else if (mode === 'manual') {
       placeShips(humanPlayer)
     }
 
     computerPlayer = Player('Computer')
     placeShips(computerPlayer)
+    gamePhase = 'running'
   }
 
   function getHumanPlayer() {
@@ -80,8 +79,8 @@ export default function gameEngine() {
   }
 
   function resetGame() {
-    startGame()
     gamePhase = 'setup'
+    startGame('auto')
     humanTurn = true
     computerTurn = false
     winner = null

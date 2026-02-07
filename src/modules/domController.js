@@ -6,7 +6,6 @@ import renderGameBoard from './renderBoard.js'
 import renderOverlay from './renderOverlay.js'
 
 const engine = gameEngine()
-engine.startGame('')
 
 export const overlay = renderOverlay()
 overlay.classList.add('visible')
@@ -16,24 +15,28 @@ overlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('manual-btn')) {
     engine.startGame('manual')
     overlay.classList.remove('visible')
+    renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
   } else if (e.target.classList.contains('auto-btn')) {
     engine.startGame('auto')
     overlay.classList.remove('visible')
-    renderGameBoard(engine.getHumanPlayer(), humanBoard, { hideShip: false })
+    renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
   }
-
-  renderGameBoard(engine.getComputerPlayer(), computerBoard, {
-    hideShip: true,
-  })
+  renderGameBoard(
+    computerBoard,
+    {
+      hideShip: true,
+    },
+    engine.getComputerPlayer(),
+  )
 })
 
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
-renderGameBoard(engine.getHumanPlayer(), humanBoard, { hideShip: false })
+renderGameBoard(humanBoard, { hideShip: false })
 
 export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
-renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
+renderGameBoard(computerBoard, { hideShip: true })
 
 computerBoard.addEventListener('click', (e) => {
   console.log('sdfsdf')
@@ -46,9 +49,13 @@ computerBoard.addEventListener('click', (e) => {
     if (!engine.humanAttack(x, y)) {
       return
     }
-    renderGameBoard(engine.getComputerPlayer(), computerBoard, {
-      hideShip: true,
-    })
+    renderGameBoard(
+      computerBoard,
+      {
+        hideShip: true,
+      },
+      engine.getComputerPlayer(),
+    )
     if (engine.checkWinner().status) {
       console.log(`game finishes ${engine.checkWinner().winner} won the game`)
       gameResult(engine.checkWinner().winner)
@@ -57,9 +64,13 @@ computerBoard.addEventListener('click', (e) => {
     // make computerTurn true, disable the computer board,
     setTimeout(() => {
       engine.computerAttack()
-      renderGameBoard(engine.getHumanPlayer(), humanBoard, {
-        hideShip: false,
-      })
+      renderGameBoard(
+        humanBoard,
+        {
+          hideShip: false,
+        },
+        engine.getHumanPlayer(),
+      )
       if (
         engine.checkWinner().status &&
         engine.checkWinner().winner === 'Computer'
@@ -124,6 +135,6 @@ function initialSetupModal() {
 
 function resetGame() {
   engine.resetGame()
-  renderGameBoard(engine.getHumanPlayer(), humanBoard, { hideShip: false })
-  renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
+  renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
+  renderGameBoard(computerBoard, { hideShip: true }, engine.getComputerPlayer())
 }

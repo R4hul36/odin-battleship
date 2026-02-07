@@ -5,7 +5,7 @@ import Ship from './ship.js'
 export default function Player(name) {
   const board = GameBoard()
   board.createBoard()
-  const fleet = [Ship(2, 'Corvettes'), Ship(3, 'Destroyers'), Ship(3, 'Destroyers'), Ship(4, 'Cruisers'), Ship(4, "Aircraft Carriers")]
+  const fleet = [Ship(2, 'Corvettes'), Ship(3, 'Destroyers'), Ship(3, 'Destroyers'), Ship(4, 'Cruisers'), Ship(5, "Aircraft Carriers")]
 
   function getPlayerName() {
     return name

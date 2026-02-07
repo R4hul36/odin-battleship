@@ -10,17 +10,15 @@ export default function gameEngine() {
   let winner = null
   let humanPlayer
   let computerPlayer
+  let shipCount = 0
 
   function startGame(mode) {
     humanPlayer = Player('Human')
-
     if (mode === 'auto') {
       placeShips(humanPlayer)
     } 
-
     computerPlayer = Player('Computer')
     placeShips(computerPlayer)
-    
   }
 
   function getHumanPlayer() {
@@ -32,10 +30,17 @@ export default function gameEngine() {
   }
 
   function placeShipsManually (x,y) {
-      //placeShip(ship, coord, orientation)
-      const ship1 = Ship(5)
+      if(shipCount === 4) {
+        gamePhase = "running"
+      }
+      const humanFleet = humanPlayer.getFleet()
+      const ship = humanFleet[shipCount]
+      
       console.log(humanPlayer)
-      humanPlayer.placeShip(ship1, [x,y], 'horizontal')
+      if(humanPlayer.placeShip(ship, [Number(x),Number(y)], 'horizontal')) {
+        shipCount++
+        console.log(shipCount)
+      }
   }
 
   function humanAttack(x, y) {

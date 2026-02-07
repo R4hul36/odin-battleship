@@ -1,11 +1,18 @@
 import GameBoard from './gameboard.js'
+import Ship from './ship.js'
+
 
 export default function Player(name) {
   const board = GameBoard()
   board.createBoard()
+  const fleet = [Ship(2, 'Corvettes'), Ship(3, 'Destroyers'), Ship(3, 'Destroyers'), Ship(4, 'Cruisers'), Ship(4, "Aircraft Carriers")]
 
   function getPlayerName() {
     return name
+  }
+  
+  function getFleet () {
+    return fleet
   }
 
   function placeShip(ship, coord, orientation) {
@@ -46,6 +53,7 @@ export default function Player(name) {
   return {
     getPlayerName,
     placeShip,
+    getFleet,
     receiveAttack,
     allShipsSunk,
     missedCoord,

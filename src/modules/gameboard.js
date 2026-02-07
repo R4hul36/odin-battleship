@@ -12,7 +12,7 @@ export default function GameBoard() {
   }
 
   function placeShip(ship, [x, y], orientation) {
-    const length = ship.shipLength()
+    const length = ship.shipInfo().length
     if (
       isValidBoundary(x, y, length, orientation) &&
       isNonOverlapping(x, y, board, length, orientation)

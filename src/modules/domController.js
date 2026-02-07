@@ -5,12 +5,27 @@ import gameEngine from './game.js'
 import renderGameBoard from './renderBoard.js'
 import renderOverlay from './renderOverlay.js'
 
-const engine = gameEngine() 
-engine.startGame('auto')
+const engine = gameEngine()
+engine.startGame('')
 
 export const overlay = renderOverlay()
 overlay.classList.add('visible')
 initialSetupModal()
+
+overlay.addEventListener('click', (e) => {
+  if (e.target.classList.contains('manual-btn')) {
+    engine.startGame('manual')
+    overlay.classList.remove('visible')
+  } else if (e.target.classList.contains('auto-btn')) {
+    engine.startGame('auto')
+    overlay.classList.remove('visible')
+    renderGameBoard(engine.getHumanPlayer(), humanBoard, { hideShip: false })
+  }
+
+  renderGameBoard(engine.getComputerPlayer(), computerBoard, {
+    hideShip: true,
+  })
+})
 
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
@@ -20,9 +35,8 @@ export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(engine.getComputerPlayer(), computerBoard, { hideShip: true })
 
-
-
 computerBoard.addEventListener('click', (e) => {
+  console.log('sdfsdf')
   if (engine.currGamePhase() === 'gameover') {
     return
   }
@@ -78,36 +92,34 @@ function gameResult(player) {
   overlay.appendChild(msgContainer)
 }
 
-function initialSetupModal () {
+function initialSetupModal() {
   overlay.innerHTML = ''
   const setUpContainer = document.createElement('div')
   setUpContainer.classList.add('setup-container')
   const nameLabel = document.createElement('label')
   const nameInput = document.createElement('input')
   nameLabel.textContent = 'Name: '
-  nameInput.value = "Human"
+  nameInput.value = 'Human'
   const selectionSection = document.createElement('div')
   selectionSection.classList.add('selection')
   const txt = document.createElement('p')
-  txt.textContent = "Choose how to place the ships: "
+  txt.textContent = 'Choose how to place the ships: '
   const manual = document.createElement('button')
-  manual.textContent = "Manual"
+  manual.classList.add('manual-btn')
+  manual.textContent = 'Manual'
   const automatic = document.createElement('button')
-  automatic.textContent = "Automatic"
+  automatic.classList.add('auto-btn')
+  automatic.textContent = 'Automatic'
 
   selectionSection.appendChild(txt)
   selectionSection.appendChild(manual)
   selectionSection.appendChild(automatic)
-  
- 
 
   setUpContainer.appendChild(nameLabel)
   setUpContainer.appendChild(nameInput)
   setUpContainer.appendChild(selectionSection)
-  
+
   overlay.appendChild(setUpContainer)
-
-
 }
 
 function resetGame() {

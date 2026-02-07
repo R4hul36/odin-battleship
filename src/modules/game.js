@@ -16,13 +16,11 @@ export default function gameEngine() {
 
     if (mode === 'auto') {
       placeShips(humanPlayer)
-    } else if (mode === 'manual') {
-      placeShips(humanPlayer)
-    }
+    } 
 
     computerPlayer = Player('Computer')
     placeShips(computerPlayer)
-    gamePhase = 'running'
+    
   }
 
   function getHumanPlayer() {
@@ -31,6 +29,13 @@ export default function gameEngine() {
 
   function getComputerPlayer() {
     return computerPlayer
+  }
+
+  function placeShipsManually (x,y) {
+      //placeShip(ship, coord, orientation)
+      const ship1 = Ship(5)
+      console.log(humanPlayer)
+      humanPlayer.placeShip(ship1, [x,y], 'horizontal')
   }
 
   function humanAttack(x, y) {
@@ -90,6 +95,7 @@ export default function gameEngine() {
     startGame,
     getHumanPlayer,
     getComputerPlayer,
+    placeShipsManually,
     humanAttack,
     computerAttack,
     checkWinner,

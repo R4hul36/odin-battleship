@@ -13,12 +13,12 @@ initialSetupModal()
 
 overlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('manual-btn')) {
-    engine.startGame('manual')
     overlay.classList.remove('visible')
-    renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
+    engine.startGame()
+    // renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
   } else if (e.target.classList.contains('auto-btn')) {
-    engine.startGame('auto')
     overlay.classList.remove('visible')
+    engine.startGame('auto')
     renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
   }
   renderGameBoard(
@@ -37,6 +37,20 @@ renderGameBoard(humanBoard, { hideShip: false })
 export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(computerBoard, { hideShip: true })
+
+
+humanBoard.addEventListener('click', (e) => {
+   if (engine.currGamePhase() === 'gameover' || engine.currGamePhase() === 'running') {
+    return
+  }
+
+  if(e.target.classList.contains('cell')) {
+    const [x, y] = e.target.dataset.coords.split(',')
+    engine.placeShipsManually(x,y)
+    renderGameBoard(humanBoard, {hideShip:false}, engine.getHumanPlayer())
+  }
+  
+})
 
 computerBoard.addEventListener('click', (e) => {
   console.log('sdfsdf')

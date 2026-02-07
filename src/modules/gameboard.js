@@ -7,6 +7,7 @@ export default function GameBoard() {
   let board
   let missedCoord = []
   let hitCoord = []
+  let placedShipsCount = 0
   function createBoard() {
     board = Array.from({ length: 10 }, () => Array(10).fill(null))
   }
@@ -24,9 +25,14 @@ export default function GameBoard() {
           board[x + i][y] = ship
         }
       }
+      placedShipsCount++
       return true
     }
     return false
+  }
+
+  function getPlacedShipsCount () {
+    return placedShipsCount
   }
 
   function isAlreadyInteracted(x, y) {
@@ -111,6 +117,7 @@ export default function GameBoard() {
   return {
     createBoard,
     placeShip,
+    getPlacedShipsCount,
     receiveAttack,
     checkMissedCoord,
     allShipsSunk,

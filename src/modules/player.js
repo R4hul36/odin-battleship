@@ -50,9 +50,14 @@ export default function Player(name) {
     return board.isHit(x, y)
   }
 
+  function getPlacedShipsCount() {
+    return board.getPlacedShipsCount()
+  }
+
   return {
     getPlayerName,
     placeShip,
+    getPlacedShipsCount,
     getFleet,
     receiveAttack,
     allShipsSunk,

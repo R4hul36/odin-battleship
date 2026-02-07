@@ -53,13 +53,14 @@ humanBoard.addEventListener('click', (e) => {
 })
 
 computerBoard.addEventListener('click', (e) => {
-  console.log('sdfsdf')
+
   if (engine.currGamePhase() === 'gameover') {
     return
   }
 
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
+      console.log('sdfsdf')
     if (!engine.humanAttack(x, y)) {
       return
     }

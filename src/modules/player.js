@@ -9,7 +9,7 @@ export default function Player(name) {
 
   function getPlayerName() {
     return name
-  }
+  } 
   
   function getFleet () {
     return fleet

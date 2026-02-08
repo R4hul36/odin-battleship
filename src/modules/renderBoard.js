@@ -6,7 +6,10 @@ export default function renderGameBoard(
   container.innerHTML = ''
   const boardWidth = 10
   const boardHeight = 10
-  
+
+  const boardContainer = document.createElement('div')
+  boardContainer.classList.add('board')
+
 
   for (let i = 0; i < boardWidth; i++) {
     for (let j = 0; j < boardHeight; j++) {
@@ -29,8 +32,9 @@ export default function renderGameBoard(
         }
       }
 
-      container.appendChild(cell)
+      boardContainer.appendChild(cell)
       cell.dataset.coords = `${i},${j}`
     }
   }
+  container.appendChild(boardContainer)
 }

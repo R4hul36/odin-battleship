@@ -19,14 +19,19 @@ body {
   align-items: center;
 }
 
-.hum-container,
-.computer-container {
+.board {
   height: 400px;
   width: 400px;
   border: 0.5px solid black;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
 }
+
+.orientation-btns {
+
+}
+
+
 .cell {
   border: 0.5px solid black;
   width: 40px;

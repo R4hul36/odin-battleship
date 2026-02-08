@@ -10,6 +10,7 @@ const engine = gameEngine()
 export const overlay = renderOverlay()
 overlay.classList.add('visible')
 initialSetupModal()
+const orientationBtns = renderOrientationBtns()
 
 overlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('manual-btn')) {
@@ -29,14 +30,32 @@ overlay.addEventListener('click', (e) => {
   )
 })
 
+export default function renderOrientationBtns () {
+  const btnContainer = document.createElement('div')
+  btnContainer.classList.add('orientation-btns')
+  const verticalBtn = document.createElement('button')
+  verticalBtn.classList.add('vertical-btn')
+  verticalBtn.textContent = "Place Vertically"
+  const horizontalBtn = document.createElement('button')
+  horizontalBtn.classList.add('horizontal-btn')
+  horizontalBtn.textContent = 'Place Horizontally'
+  btnContainer.appendChild(horizontalBtn)
+  btnContainer.appendChild(verticalBtn)
+  return btnContainer
+}
+
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
+humanBoard.appendChild(orientationBtns)
 renderGameBoard(humanBoard, { hideShip: false })
 
 export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(computerBoard, { hideShip: true })
 
+if(engine.currGamePhase() === "setup"){
+  humanBoard.appendChild(orientationBtns)
+}
 
 humanBoard.addEventListener('click', (e) => {
    if (engine.currGamePhase() === 'gameover' || engine.currGamePhase() === 'running') {

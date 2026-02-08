@@ -15,6 +15,7 @@ const orientationBtns = renderOrientationBtns()
 overlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('manual-btn')) {
     overlay.classList.remove('visible')
+    humanBoard.appendChild(renderOrientationBtns())
     engine.startGame()
   } else if (e.target.classList.contains('auto-btn')) {
     overlay.classList.remove('visible')
@@ -46,16 +47,12 @@ export default function renderOrientationBtns () {
 
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
-humanBoard.appendChild(orientationBtns)
 renderGameBoard(humanBoard, { hideShip: false })
 
 export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(computerBoard, { hideShip: true })
 
-if(engine.currGamePhase() === "setup"){
-  humanBoard.appendChild(orientationBtns)
-}
 
 humanBoard.addEventListener('click', (e) => {
    if (engine.currGamePhase() === 'gameover' || engine.currGamePhase() === 'running') {
@@ -66,7 +63,9 @@ humanBoard.addEventListener('click', (e) => {
     const [x, y] = e.target.dataset.coords.split(',')
     console.log('sdfdf')
     engine.placeShipsManually(x,y)
+    
     renderGameBoard(humanBoard, {hideShip:false}, engine.getHumanPlayer())
+    humanBoard.appendChild(renderOrientationBtns())
   }
   
 })

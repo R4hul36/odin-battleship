@@ -6,6 +6,7 @@ export default function renderGameBoard(
   container.innerHTML = ''
   const boardWidth = 10
   const boardHeight = 10
+  
 
   for (let i = 0; i < boardWidth; i++) {
     for (let j = 0; j < boardHeight; j++) {

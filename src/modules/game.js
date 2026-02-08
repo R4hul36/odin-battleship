@@ -19,7 +19,7 @@ export default function gameEngine() {
     } 
     computerPlayer = Player('Computer')
     placeShips(computerPlayer)
-    changeGamePhase()
+    onShipsPlaced()
   }
 
   function getHumanPlayer() {
@@ -38,23 +38,31 @@ export default function gameEngine() {
       
       console.log(humanPlayer)
       humanPlayer.placeShip(ship, [Number(x),Number(y)], 'horizontal')
-      changeGamePhase()
+      onShipsPlaced()
   }
 
-  function changeGamePhase () {
-    console.log(humanPlayer.getPlacedShipsCount());
-    
+  function onShipsPlaced () {
     if(humanPlayer.getPlacedShipsCount() === 5 && computerPlayer.getPlacedShipsCount() === 5) {
-      gamePhase = "running"
-      console.log("phase")
-    }
+        gamePhase = "running"
+        console.log("phase")
+      }
   }
+
+  function onAllShipsSunk() {
+    if (computerPlayer.allShipsSunk() || humanPlayer.allShipsSunk()) {
+        gamePhase = 'gameover'
+      
+      }
+  }
+
+ 
 
   function humanAttack(x, y) {
     if (gamePhase === 'running' && humanTurn) {
       if (computerPlayer.receiveAttack(Number(x), Number(y))) {
         humanTurn = false
         computerTurn = true
+        onAllShipsSunk()
         return true
       }
       return false
@@ -68,6 +76,7 @@ export default function gameEngine() {
         console.log('attacks')
         ;[x, y] = generateRandomCoordinates()
       }
+      onAllShipsSunk()
       humanTurn = true
       computerTurn = false
     }
@@ -76,14 +85,12 @@ export default function gameEngine() {
   function checkWinner() {
     let status = false
 
-    if (computerPlayer.allShipsSunk() || humanPlayer.allShipsSunk()) {
-      gamePhase = 'gameover'
-      status = true
-    }
     if (computerPlayer.allShipsSunk()) {
       winner = 'Human'
+      status = true
     } else if (humanPlayer.allShipsSunk()) {
       winner = 'Computer'
+      status = true
     }
     return {
       status,

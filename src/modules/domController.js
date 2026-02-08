@@ -15,7 +15,6 @@ overlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('manual-btn')) {
     overlay.classList.remove('visible')
     engine.startGame()
-    // renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
   } else if (e.target.classList.contains('auto-btn')) {
     overlay.classList.remove('visible')
     engine.startGame('auto')
@@ -46,6 +45,7 @@ humanBoard.addEventListener('click', (e) => {
 
   if(e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
+    console.log('sdfdf')
     engine.placeShipsManually(x,y)
     renderGameBoard(humanBoard, {hideShip:false}, engine.getHumanPlayer())
   }
@@ -92,6 +92,7 @@ computerBoard.addEventListener('click', (e) => {
       ) {
         gameResult(engine.checkWinner().winner)
         console.log(`game finishes ${engine.checkWinner().winner} won the game`)
+        overlay.classList.add('visible')
       }
     }, 300)
   }

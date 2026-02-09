@@ -2,6 +2,8 @@ import Ship from './ship.js'
 import Player from './player.js'
 import { generateRandomCoordinates } from '../utils/generateCoordinates.js'
 import { placeShips } from '../utils/placeShips.js'
+import computerMove from './computerMove.js'
+import { humanBoard } from './domController.js'
 
 export default function gameEngine() {
   let gamePhase = 'setup'
@@ -49,7 +51,6 @@ export default function gameEngine() {
       computerPlayer.getPlacedShipsCount() === 5
     ) {
       gamePhase = 'running'
-      console.log('phase')
     }
   }
 
@@ -73,10 +74,10 @@ export default function gameEngine() {
   }
   function computerAttack() {
     if (gamePhase === 'running' && computerTurn) {
-      let [x, y] = generateRandomCoordinates()
+      let [x, y] = computerMove(humanPlayer)
       while (!humanPlayer.receiveAttack(x, y)) {
         console.log('attacks')
-        ;[x, y] = generateRandomCoordinates()
+        ;[x, y] = computerMove(humanPlayer)
       }
       onAllShipsSunk()
       humanTurn = true

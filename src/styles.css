@@ -19,6 +19,10 @@ body {
   align-items: center;
 }
 
+.hum-container {
+  display: flex;
+}
+
 .board {
   height: 400px;
   width: 400px;
@@ -28,9 +32,9 @@ body {
 }
 
 .orientation-btns {
-
+  position: fixed;
+  bottom: 660px;
 }
-
 
 .cell {
   border: 0.5px solid black;
@@ -60,7 +64,8 @@ body {
   background-color: lightblue;
 }
 
-.msg-container, .setup-container {
+.msg-container,
+.setup-container {
   background-color: white;
   padding: 30px;
 }

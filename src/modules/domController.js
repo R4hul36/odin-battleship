@@ -10,8 +10,8 @@ const engine = gameEngine()
 export const overlay = renderOverlay()
 overlay.classList.add('visible')
 initialSetupModal()
-const orientationBtns = renderOrientationBtns()
 
+//intial game setup overlay lister
 overlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('manual-btn')) {
     overlay.classList.remove('visible')
@@ -31,12 +31,12 @@ overlay.addEventListener('click', (e) => {
   )
 })
 
-export default function renderOrientationBtns () {
+export default function renderOrientationBtns() {
   const btnContainer = document.createElement('div')
   btnContainer.classList.add('orientation-btns')
   const verticalBtn = document.createElement('button')
   verticalBtn.classList.add('vertical-btn')
-  verticalBtn.textContent = "Place Vertically"
+  verticalBtn.textContent = 'Place Vertically'
   const horizontalBtn = document.createElement('button')
   horizontalBtn.classList.add('horizontal-btn')
   horizontalBtn.textContent = 'Place Horizontally'
@@ -53,32 +53,42 @@ export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGameBoard(computerBoard, { hideShip: true })
 
+humanBoard.addEventListener('click', (e) => {
+  if (e.target.classList.contains('horizontal-btn')) {
+    engine.setOrientation('horizontal')
+  } else if (e.target.classList.contains('vertical-btn')) {
+    engine.setOrientation('vertical')
+  }
+})
 
 humanBoard.addEventListener('click', (e) => {
-   if (engine.currGamePhase() === 'gameover' || engine.currGamePhase() === 'running') {
+  if (
+    engine.currGamePhase() === 'gameover' ||
+    engine.currGamePhase() === 'running'
+  ) {
     return
   }
 
-  if(e.target.classList.contains('cell')) {
+  if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
     console.log('sdfdf')
-    engine.placeShipsManually(x,y)
-    
-    renderGameBoard(humanBoard, {hideShip:false}, engine.getHumanPlayer())
-    humanBoard.appendChild(renderOrientationBtns())
+    engine.placeShipsManually(x, y, 'horizontal')
+
+    renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
+    if (engine.currGamePhase() === 'setup') {
+      humanBoard.appendChild(renderOrientationBtns())
+    }
   }
-  
 })
 
 computerBoard.addEventListener('click', (e) => {
-
   if (engine.currGamePhase() === 'gameover') {
     return
   }
 
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
-      console.log('sdfsdf')
+    console.log('sdfsdf')
     if (!engine.humanAttack(x, y)) {
       return
     }

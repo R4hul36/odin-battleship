@@ -5,21 +5,25 @@ import { placeShips } from '../utils/placeShips.js'
 
 export default function gameEngine() {
   let gamePhase = 'setup'
+  let orientation = 'horizontal'
   let computerTurn = false
   let humanTurn = true
   let winner = null
   let humanPlayer
   let computerPlayer
- 
 
   function startGame(mode) {
     humanPlayer = Player('Human')
     if (mode === 'auto') {
       placeShips(humanPlayer)
-    } 
+    }
     computerPlayer = Player('Computer')
     placeShips(computerPlayer)
     onShipsPlaced()
+  }
+
+  function setOrientation(newOrientation) {
+    orientation = newOrientation
   }
 
   function getHumanPlayer() {
@@ -30,32 +34,30 @@ export default function gameEngine() {
     return computerPlayer
   }
 
-  function placeShipsManually (x,y) {
-      const count = humanPlayer.getPlacedShipsCount()   
-    
-      const humanFleet = humanPlayer.getFleet()
-      const ship = humanFleet[count]
-      
-      console.log(humanPlayer)
-      humanPlayer.placeShip(ship, [Number(x),Number(y)], 'horizontal')
-      onShipsPlaced()
+  function placeShipsManually(x, y) {
+    const count = humanPlayer.getPlacedShipsCount()
+
+    const humanFleet = humanPlayer.getFleet()
+    const ship = humanFleet[count]
+    humanPlayer.placeShip(ship, [Number(x), Number(y)], orientation)
+    onShipsPlaced()
   }
 
-  function onShipsPlaced () {
-    if(humanPlayer.getPlacedShipsCount() === 5 && computerPlayer.getPlacedShipsCount() === 5) {
-        gamePhase = "running"
-        console.log("phase")
-      }
+  function onShipsPlaced() {
+    if (
+      humanPlayer.getPlacedShipsCount() === 5 &&
+      computerPlayer.getPlacedShipsCount() === 5
+    ) {
+      gamePhase = 'running'
+      console.log('phase')
+    }
   }
 
   function onAllShipsSunk() {
     if (computerPlayer.allShipsSunk() || humanPlayer.allShipsSunk()) {
-        gamePhase = 'gameover'
-      
-      }
+      gamePhase = 'gameover'
+    }
   }
-
- 
 
   function humanAttack(x, y) {
     if (gamePhase === 'running' && humanTurn) {
@@ -114,6 +116,7 @@ export default function gameEngine() {
     startGame,
     getHumanPlayer,
     getComputerPlayer,
+    setOrientation,
     placeShipsManually,
     humanAttack,
     computerAttack,

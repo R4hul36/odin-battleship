@@ -54,12 +54,13 @@ export default function GameBoard() {
         const currShip = board[x][y]
         hitCoord.push([x, y])
         currShip.hit()
+        return {valid: true, ship: currShip, result: 'hit'}
       } else {
         missedCoord.push([x, y])
+        return {valid: true, ship: null, result: 'miss'}
       }
-      return true
     }
-    return false
+    return {valid: false, ship: null, result: null}
   }
 
   function allShipsSunk() {

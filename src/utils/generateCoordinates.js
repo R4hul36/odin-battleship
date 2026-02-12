@@ -8,3 +8,7 @@ export function randomOrientation() {
   const orientations = ['horizontal', 'vertical']
   return orientations[Math.floor(Math.random() * 2)]
 }
+
+export function generateRandomNumber (range) {
+  return Math.floor(Math.random()*range)
+}

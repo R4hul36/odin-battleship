@@ -20,7 +20,6 @@ export default function renderGameBoard(
           cell.classList.add('ship-sunk')
         }
         if (player.isHit(i, j)) {
-          console.log('hittt')
           cell.classList.add('ship-hit')
           const dmgIndicator = document.createElement('p')
           dmgIndicator.textContent = 'x'

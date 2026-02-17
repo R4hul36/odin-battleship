@@ -86,40 +86,88 @@ export default function gameEngine() {
   }
   function computerAttack() {
     if (gamePhase === 'running' && computerTurn) {
+      // let {placement, coords} = computerMove()
+      // let[x,y] = coords
+      // while (!humanPlayer.receiveAttack(x, y)) {
+      //   console.log('attacks')
+      //   if(nextLogicalAttackInfo!==null && nextLogicalAttackInfo.placement){
+      //     nextLogicalAttackInfo.state= "miss"
+      //   }
+      //   let newMove = computerMove()
+      //   placement = newMove.placement
+      //   ;[x,y] = newMove.coords
+      // }
+      // if(humanPlayer.isHit(x,y) && nextLogicalAttackInfo === null){
+      //   nextLogicalAttackInfo = { state: "hit", initialHit: [x,y],coords: [x,y], placement: null, currentPath: null, failedPaths: []}
+        
+      // }
+
+      // if(humanPlayer.isShipSunk(x,y)){
+      //   nextLogicalAttackInfo = null
+      // }
+
+      // if(humanPlayer.isHit(x,y) && nextLogicalAttackInfo !== null){
+      //   nextLogicalAttackInfo.state = "hit"
+      //   nextLogicalAttackInfo.coords = [x,y]
+      //   nextLogicalAttackInfo.placement = placement
+
+      // }
+
+
+      // if(!humanPlayer.isHit(x,y) && nextLogicalAttackInfo) {
+      //   nextLogicalAttackInfo.state = "miss"
+      //   nextLogicalAttackInfo.coords = [x,y]
+        
+
+      // }
       let {placement, coords} = computerMove()
-      let[x,y] = coords
-      while (!humanPlayer.receiveAttack(x, y)) {
-        console.log('attacks')
-        if(nextLogicalAttackInfo!==null && nextLogicalAttackInfo.placement){
-          nextLogicalAttackInfo.state= "miss"
-        }
+      let [x,y] = coords
+
+      let boardAttack = humanPlayer.receiveAttack(Number(x), Number(y))
+
+    
+      while(!boardAttack.valid){
+        console.log('retry')
+        console.log(nextLogicalAttackInfo)
         let newMove = computerMove()
         placement = newMove.placement
         ;[x,y] = newMove.coords
+        console.log(x,y, "inside loop")
+        boardAttack = humanPlayer.receiveAttack(Number(x), Number(y))
+        console.log(boardAttack.result, boardAttack.valid)
       }
-      if(humanPlayer.isHit(x,y) && nextLogicalAttackInfo === null){
+
+      if(boardAttack.result === "hit" && boardAttack.ship.isSunk()){
+        console.log('ship sunk')
+        nextLogicalAttackInfo = null      
+      } else if(boardAttack.result === "hit" && nextLogicalAttackInfo === null) {
+        console.log("after 1st attack");
         nextLogicalAttackInfo = { state: "hit", initialHit: [x,y],coords: [x,y], placement: null, currentPath: null, failedPaths: []}
+      } else if(boardAttack.result === "hit" && nextLogicalAttackInfo !== null){
+        console.log(placement, "after 2 attacks");
         
-      }
-
-      if(humanPlayer.isShipSunk(x,y)){
-        nextLogicalAttackInfo = null
-      }
-
-      if(humanPlayer.isHit(x,y) && nextLogicalAttackInfo !== null){
         nextLogicalAttackInfo.state = "hit"
         nextLogicalAttackInfo.coords = [x,y]
         nextLogicalAttackInfo.placement = placement
+      } else if(boardAttack.result === "miss" && nextLogicalAttackInfo) {
+        if(nextLogicalAttackInfo.placement){
+          nextLogicalAttackInfo.state = "miss"
+          nextLogicalAttackInfo.coords = [x,y] 
+        }
+      } 
 
-      }
+      // if(!boardAttack.valid && nextLogicalAttackInfo) {
+      //   nextLogicalAttackInfo.state = "invalid"
+      //   nextLogicalAttackInfo.failedPaths.push([x,y])
+      // }
+      
+      // if(!boardAttack.valid && nextLogicalAttackInfo){
+      //   console.log("invalid")
+      //   if(nextLogicalAttackInfo.placement){
+      //     nextLogicalAttackInfo.state = "invalid"
+      //   }
+      // }
 
-
-      if(!humanPlayer.isHit(x,y) && nextLogicalAttackInfo) {
-        nextLogicalAttackInfo.state = "miss"
-        nextLogicalAttackInfo.coords = [x,y]
-        
-
-      }
       onAllShipsSunk()
       humanTurn = true
       computerTurn = false
@@ -140,30 +188,75 @@ export default function gameEngine() {
       console.log(x,y)
       console.log(placement)
       possibleMoves = [{placement: 'horizontal', coords:[x, y+1]}, {placement: 'horizontal', coords:[x, y-1]}, {placement: 'vertical', coords:[x+1, y]}, {placement: 'vertical', coords:[x-1, y]}]
-      if(placement === null){
-        randomNum = generateRandomNumber(4)
+      
+      possibleMoves = filterValidMoves(possibleMoves, failedPaths, initialHit)
+      
+      if(placement === null ){
+        console.log(possibleMoves)
+        randomNum = generateRandomNumber(possibleMoves.length)
         console.log(randomNum)
         return possibleMoves[randomNum]
       }else if (placement){
         possibleMoves = possibleMoves.filter(move => move.placement === placement)
         randomNum = generateRandomNumber(2)
+        console.log("placement mode on");
+        
         if(state === "miss") {
           if(placement === "horizontal" && initialHit[1] < coords[1]){
+            if(humanPlayer.isHit(initialHit[0], initialHit[1]-1) || humanPlayer.isMiss(initialHit[0], initialHit[1]-1)){
+              nextLogicalAttackInfo = null
+              return {placement: null, coords:generateRandomCoordinates()}
+            }
+
             return {placement: placement, coords: [initialHit[0], initialHit[1]-1], path: "left"}
           } else if (placement === "horizontal" && initialHit[1] > coords[1]){
+            if(humanPlayer.isHit(initialHit[0], initialHit[1]+1) || humanPlayer.isMiss(initialHit[0], initialHit[1]+1)){
+              nextLogicalAttackInfo = null
+              return {placement: null, coords:generateRandomCoordinates()}
+            }
             return {placement: placement, coords: [initialHit[0], initialHit[1]+1], path: 'right'}
           }
          console.log("missed with placement known");
         }
         if(state = "hit") {
-          console.log(initialHit, coords);
+          console.log(initialHit, coords, "hit block");
           if(placement === "horizontal" && coords[1] > initialHit[1]) {
-            console.log([coords[0], coords[1]+1])
-            return {placement, coords: [coords[0], coords[1]+1], path: "right"}
+            console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]+1), "and curr coords", coords, "next cell is ",[coords[0], coords[1]+1])
+            let nextCell = [coords[0], coords[1]+1]
+            if(!isValidCell(nextCell)){
+              console.log("return block if hit alredy hit cell");
+              nextCell = [initialHit[0], initialHit[1]-1]
+              if(!isValidCell(nextCell)){
+                return {placement:null, coords:generateRandomCoordinates()}
+              }else {
+                nextLogicalAttackInfo.coords = nextCell
+                nextLogicalAttackInfo.currentPath = "left"
+                return {placement: placement, coords: nextCell}
+              }
+            }else {
+              return {placement, coords: nextCell}
+            }
+
            
           } else if (placement === "horizontal" && coords[1] < initialHit[1]){
-            console.log("after 2nd hit")
-            return {placement, coords: [coords[0], coords[1]-1], path: "left"}
+            console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]-1), "and curr coords", coords,"next cell is ", [coords[0], coords[1]-1])
+            let nextCell = [coords[0], coords[1]-1]
+            if(!isValidCell(nextCell)){
+              console.log("return block if hit alredy hit cell");
+              nextCell = [initialHit[0], initialHit[1]+1]
+              if(!isValidCell(nextCell)) {
+                return {placement:null, coords:generateRandomCoordinates()}
+              }else {
+                nextLogicalAttackInfo.coords = nextCell
+                nextLogicalAttackInfo.currentPath = "right"
+                return {placement: placement, coords: nextCell}
+              }
+              
+
+              // return {placement: placement, coords: [initialHit[0], initialHit[1]+1], path: "right"}
+            }
+
+            return {placement, coords: nextCell, path: "left"}
           }
         }
       
@@ -176,6 +269,34 @@ export default function gameEngine() {
     // else if it hits the ship we will be certain of the mode eg: horizontal or vertical 
    }
    
+  }
+
+  function isValidCell (coords) {
+    let [x,y] = coords
+     return !humanPlayer.isHit(x,y) && !humanPlayer.isMiss(x,y)  
+  }
+
+  function filterValidMoves (possibleMoves, failedPaths, initialHit) {
+    let [x,y] = initialHit
+    let moves = possibleMoves
+    // for (let i = 0; i<moves.length; i++){
+    //   // console.log(moves[i].coords, x,y)
+    //   let[possibleX, possibleY] = moves[i].coords
+    //   for(let j =0; j<failedPaths.length; j++) {
+    //     let [failedX, failedY] = failedPaths[j]
+    //     if(possibleX === failedX && possibleY === failedY){
+    //       moves.splice(i, 1)
+    //     }
+    //   }
+    // }
+    console.log("filtering")
+    return moves.filter(move => {
+      let[x,y] = move.coords
+      return !humanPlayer.isHit(x,y) && !humanPlayer.isMiss(x,y)
+    })
+
+
+    
   }
 
   function checkWinner() {

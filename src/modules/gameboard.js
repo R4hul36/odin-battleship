@@ -5,7 +5,8 @@ import isNonOverlapping from '../utils/checkOverlap.js'
 
 export default function GameBoard() {
   let board
-  let missedCoord = [[1,3], [1,0], [3,4], [3,0], [5.0], [5,4], [7,0], [7,5, [1,9]]]
+  let missedCoord = []
+  // [1,3], [1,0], [3,4], [3,0], [5.0], [5,4], [7,0], [7,5, [1,9]]
   let hitCoord = []
   let placedShipsCount = 0
   function createBoard() {

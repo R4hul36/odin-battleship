@@ -202,24 +202,12 @@ export default function gameEngine() {
         console.log("placement mode on");
         
         if(state === "miss") {
-          if(placement === "horizontal" && initialHit[1] < coords[1]){
-            if(humanPlayer.isHit(initialHit[0], initialHit[1]-1) || humanPlayer.isMiss(initialHit[0], initialHit[1]-1)){
-              nextLogicalAttackInfo = null
-              return {placement: null, coords:generateRandomCoordinates()}
-            }
-
-            return {placement: placement, coords: [initialHit[0], initialHit[1]-1], path: "left"}
-          } else if (placement === "horizontal" && initialHit[1] > coords[1]){
-            if(humanPlayer.isHit(initialHit[0], initialHit[1]+1) || humanPlayer.isMiss(initialHit[0], initialHit[1]+1)){
-              nextLogicalAttackInfo = null
-              return {placement: null, coords:generateRandomCoordinates()}
-            }
-            return {placement: placement, coords: [initialHit[0], initialHit[1]+1], path: 'right'}
-          }
-         console.log("missed with placement known");
+          console.log("missed with placement known");
+          return handleMiss(placement, initialHit, coords)
         }
         if(state = "hit") {
           console.log(initialHit, coords, "hit block");
+          return handleHit(placement, initialHit, coords)
           if(placement === "horizontal" && coords[1] > initialHit[1]) {
             console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]+1), "and curr coords", coords, "next cell is ",[coords[0], coords[1]+1])
             let nextCell = [coords[0], coords[1]+1]
@@ -236,8 +224,6 @@ export default function gameEngine() {
             }else {
               return {placement, coords: nextCell}
             }
-
-           
           } else if (placement === "horizontal" && coords[1] < initialHit[1]){
             console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]-1), "and curr coords", coords,"next cell is ", [coords[0], coords[1]-1])
             let nextCell = [coords[0], coords[1]-1]
@@ -279,24 +265,62 @@ export default function gameEngine() {
   function filterValidMoves (possibleMoves, failedPaths, initialHit) {
     let [x,y] = initialHit
     let moves = possibleMoves
-    // for (let i = 0; i<moves.length; i++){
-    //   // console.log(moves[i].coords, x,y)
-    //   let[possibleX, possibleY] = moves[i].coords
-    //   for(let j =0; j<failedPaths.length; j++) {
-    //     let [failedX, failedY] = failedPaths[j]
-    //     if(possibleX === failedX && possibleY === failedY){
-    //       moves.splice(i, 1)
-    //     }
-    //   }
-    // }
     console.log("filtering")
     return moves.filter(move => {
       let[x,y] = move.coords
       return !humanPlayer.isHit(x,y) && !humanPlayer.isMiss(x,y)
     })
+  }
 
+  function handleHit(placement, initialHit, coords) {
+    if(placement === "horizontal" && coords[1] > initialHit[1]) {
+      console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]+1), "and curr coords", coords, "next cell is ",[coords[0], coords[1]+1])
+      let nextCell = [coords[0], coords[1]+1]
+      if(!isValidCell(nextCell)){
+        console.log("return block if hit alredy hit cell");
+        nextCell = [initialHit[0], initialHit[1]-1]
+        if(!isValidCell(nextCell)){
+          return {placement:null, coords:generateRandomCoordinates()}
+        }else {
+          nextLogicalAttackInfo.coords = nextCell
+          nextLogicalAttackInfo.currentPath = "left"
+          return {placement: placement, coords: nextCell}
+        }
+      }else {
+        return {placement, coords: nextCell}
+      }
+    } else if (placement === "horizontal" && coords[1] < initialHit[1]){
+            console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]-1), "and curr coords", coords,"next cell is ", [coords[0], coords[1]-1])
+            let nextCell = [coords[0], coords[1]-1]
+            if(!isValidCell(nextCell)){
+              console.log("return block if hit alredy hit cell");
+              nextCell = [initialHit[0], initialHit[1]+1]
+              if(!isValidCell(nextCell)) {
+                return {placement:null, coords:generateRandomCoordinates()}
+              }else {
+                nextLogicalAttackInfo.coords = nextCell
+                nextLogicalAttackInfo.currentPath = "right"
+                return {placement: placement, coords: nextCell}
+              }
+            }
 
-    
+            return {placement, coords: nextCell, path: "left"}
+          }
+  }
+
+  function handleMiss (placement, initialHit, coords) {
+    if(placement === "horizontal" && initialHit[1] < coords[1]){
+      if(humanPlayer.isHit(initialHit[0], initialHit[1]-1) || humanPlayer.isMiss(initialHit[0], initialHit[1]-1)){
+        nextLogicalAttackInfo = null
+        return {placement: null, coords:generateRandomCoordinates()}
+      }
+    }else if (placement === "horizontal" && initialHit[1] > coords[1]){
+      if(humanPlayer.isHit(initialHit[0], initialHit[1]+1) || humanPlayer.isMiss(initialHit[0], initialHit[1]+1)){
+        nextLogicalAttackInfo = null
+        return {placement: null, coords:generateRandomCoordinates()}
+      }
+      return {placement: placement, coords: [initialHit[0], initialHit[1]+1], path: 'right'}
+    }
   }
 
   function checkWinner() {

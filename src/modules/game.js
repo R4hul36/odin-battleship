@@ -185,8 +185,8 @@ export default function gameEngine() {
    }else {
       let{state, initialHit,coords, placement, currentPath, failedPaths} = nextLogicalAttackInfo
       let [x,y] = initialHit
-      console.log(x,y)
-      console.log(placement)
+      // console.log(x,y)
+      // console.log(placement)
       possibleMoves = [{placement: 'horizontal', coords:[x, y+1]}, {placement: 'horizontal', coords:[x, y-1]}, {placement: 'vertical', coords:[x+1, y]}, {placement: 'vertical', coords:[x-1, y]}]
       
       possibleMoves = filterValidMoves(possibleMoves, failedPaths, initialHit)
@@ -208,42 +208,6 @@ export default function gameEngine() {
         if(state = "hit") {
           console.log(initialHit, coords, "hit block");
           return handleHit(placement, initialHit, coords)
-          if(placement === "horizontal" && coords[1] > initialHit[1]) {
-            console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]+1), "and curr coords", coords, "next cell is ",[coords[0], coords[1]+1])
-            let nextCell = [coords[0], coords[1]+1]
-            if(!isValidCell(nextCell)){
-              console.log("return block if hit alredy hit cell");
-              nextCell = [initialHit[0], initialHit[1]-1]
-              if(!isValidCell(nextCell)){
-                return {placement:null, coords:generateRandomCoordinates()}
-              }else {
-                nextLogicalAttackInfo.coords = nextCell
-                nextLogicalAttackInfo.currentPath = "left"
-                return {placement: placement, coords: nextCell}
-              }
-            }else {
-              return {placement, coords: nextCell}
-            }
-          } else if (placement === "horizontal" && coords[1] < initialHit[1]){
-            console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]-1), "and curr coords", coords,"next cell is ", [coords[0], coords[1]-1])
-            let nextCell = [coords[0], coords[1]-1]
-            if(!isValidCell(nextCell)){
-              console.log("return block if hit alredy hit cell");
-              nextCell = [initialHit[0], initialHit[1]+1]
-              if(!isValidCell(nextCell)) {
-                return {placement:null, coords:generateRandomCoordinates()}
-              }else {
-                nextLogicalAttackInfo.coords = nextCell
-                nextLogicalAttackInfo.currentPath = "right"
-                return {placement: placement, coords: nextCell}
-              }
-              
-
-              // return {placement: placement, coords: [initialHit[0], initialHit[1]+1], path: "right"}
-            }
-
-            return {placement, coords: nextCell, path: "left"}
-          }
         }
       
       }
@@ -273,12 +237,14 @@ export default function gameEngine() {
   }
 
   function handleHit(placement, initialHit, coords) {
-    if(placement === "horizontal" && coords[1] > initialHit[1]) {
+    let direction = determineDirection(initialHit, coords)
+    if(direction === "right") {
       console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]+1), "and curr coords", coords, "next cell is ",[coords[0], coords[1]+1])
-      let nextCell = [coords[0], coords[1]+1]
+      let nextCell = getNextCell(coords, direction)
       if(!isValidCell(nextCell)){
         console.log("return block if hit alredy hit cell");
-        nextCell = [initialHit[0], initialHit[1]-1]
+        direction = getOppositeDirection(direction)
+        nextCell = getNextCell(initialHit, direction)
         if(!isValidCell(nextCell)){
           return {placement:null, coords:generateRandomCoordinates()}
         }else {
@@ -286,40 +252,81 @@ export default function gameEngine() {
           nextLogicalAttackInfo.currentPath = "left"
           return {placement: placement, coords: nextCell}
         }
-      }else {
-        return {placement, coords: nextCell}
       }
-    } else if (placement === "horizontal" && coords[1] < initialHit[1]){
-            console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]-1), "and curr coords", coords,"next cell is ", [coords[0], coords[1]-1])
-            let nextCell = [coords[0], coords[1]-1]
-            if(!isValidCell(nextCell)){
-              console.log("return block if hit alredy hit cell");
-              nextCell = [initialHit[0], initialHit[1]+1]
-              if(!isValidCell(nextCell)) {
-                return {placement:null, coords:generateRandomCoordinates()}
-              }else {
-                nextLogicalAttackInfo.coords = nextCell
-                nextLogicalAttackInfo.currentPath = "right"
-                return {placement: placement, coords: nextCell}
-              }
-            }
+      return {placement, coords: nextCell}
+    }else if (direction === "left"){
+      console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]-1), "and curr coords", coords,"next cell is ", [coords[0], coords[1]-1])
+      let nextCell = getNextCell(coords, direction)
+      if(!isValidCell(nextCell)){
+        console.log("return block if hit alredy hit cell");
+        direction = getOppositeDirection(direction)
+        nextCell = getNextCell(initialHit, direction)
+        if(!isValidCell(nextCell)) {
+          return {placement:null, coords:generateRandomCoordinates()}
+        }else {
+          nextLogicalAttackInfo.coords = nextCell
+          nextLogicalAttackInfo.currentPath = "right"
+          return {placement: placement, coords: nextCell}
+        }
+      }
 
-            return {placement, coords: nextCell, path: "left"}
-          }
+      return {placement, coords: nextCell, path: "left"}
+    }
   }
 
   function handleMiss (placement, initialHit, coords) {
-    if(placement === "horizontal" && initialHit[1] < coords[1]){
+    let direction = determineDirection(initialHit, coords)
+    
+    if(direction === "right"){
+      console.log("handle miss")
       if(humanPlayer.isHit(initialHit[0], initialHit[1]-1) || humanPlayer.isMiss(initialHit[0], initialHit[1]-1)){
         nextLogicalAttackInfo = null
         return {placement: null, coords:generateRandomCoordinates()}
       }
-    }else if (placement === "horizontal" && initialHit[1] > coords[1]){
+      return {placement: placement, coords: [initialHit[0], initialHit[1]-1], path: 'left'}
+    }else if (direction === "left"){
+      console.log("handle miss")
       if(humanPlayer.isHit(initialHit[0], initialHit[1]+1) || humanPlayer.isMiss(initialHit[0], initialHit[1]+1)){
         nextLogicalAttackInfo = null
         return {placement: null, coords:generateRandomCoordinates()}
       }
       return {placement: placement, coords: [initialHit[0], initialHit[1]+1], path: 'right'}
+    }
+  }
+
+  function determineDirection(initialHit, coords) {
+
+    if(initialHit[1] < coords[1]) {
+      return "right"
+    }
+    if(initialHit[1] > coords[1]) {
+      return "left"
+    }
+    if(initialHit[0] < coords[0]) {
+      return "down"
+    }
+    if(initialHit[0] > coords[0]) {
+      return "up"
+    }
+
+  } 
+
+  function getOppositeDirection(direction) {
+    const directions = {
+      "right": "left",
+      "left": "right",
+      "up": "down",
+      "down": "up"
+    }
+    return directions[direction]
+  }
+
+  function getNextCell (coords, direction) {
+    if(direction === "right") {
+      return [coords[0], coords[1]+1]
+    }
+    if(direction === "left") {
+      return [coords[0], coords[1]-1]
     }
   }
 

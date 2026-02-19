@@ -211,12 +211,6 @@ export default function gameEngine() {
         }
       
       }
-
-
-  
-    // if next logical attack not present randomly select an adjacent move from possible moves an return it
-    //if next logical attack is present and it doesnt hit the ship then exclude it from the possible moves
-    // else if it hits the ship we will be certain of the mode eg: horizontal or vertical 
    }
    
   }
@@ -232,14 +226,24 @@ export default function gameEngine() {
     console.log("filtering")
     return moves.filter(move => {
       let[x,y] = move.coords
-      return !humanPlayer.isHit(x,y) && !humanPlayer.isMiss(x,y)
+      return !humanPlayer.isHit(x,y) && !humanPlayer.isMiss(x,y) && isValidBoundary([x,y])
     })
+  }
+
+  function isValidBoundary(coords){
+    console.log("checking computer boundary");
+    
+    const boardMin = 0
+    const boardMax = 9
+    let[x,y] = coords
+    return (x <= boardMax && x >= boardMin) && (y <= boardMax && y >= boardMin)
+
   }
 
   function handleHit(placement, initialHit, coords) {
     let direction = determineDirection(initialHit, coords)
     let nextCell = getNextCell(coords, direction)
-      if(!isValidCell(nextCell)){
+      if(!isValidCell(nextCell) || !isValidBoundary(nextCell)){
         console.log("return block if hit alredy hit cell");
         direction = getOppositeDirection(direction)
         nextCell = getNextCell(initialHit, direction)
@@ -252,76 +256,6 @@ export default function gameEngine() {
       
       }
       return {placement, coords: nextCell}
-    // if(direction === "right") {
-    //   console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]+1), "and curr coords", coords, "next cell is ",[coords[0], coords[1]+1])
-    //   let nextCell = getNextCell(coords, direction)
-    //   if(!isValidCell(nextCell)){
-    //     console.log("return block if hit alredy hit cell");
-    //     direction = getOppositeDirection(direction)
-    //     nextCell = getNextCell(initialHit, direction)
-    //     if(!isValidCell(nextCell)){
-    //       return {placement:null, coords:generateRandomCoordinates()}
-    //     }else {
-    //       nextLogicalAttackInfo.coords = nextCell
-    //       nextLogicalAttackInfo.currentPath = "left"
-    //       return {placement: placement, coords: nextCell}
-    //     }
-    //   }
-    //   return {placement, coords: nextCell}
-    // }
-    // if (direction === "left"){
-    //   console.log("after 2nd hit", humanPlayer.isMiss(coords[0], coords[1]-1), "and curr coords", coords,"next cell is ", [coords[0], coords[1]-1])
-    //   let nextCell = getNextCell(coords, direction)
-    //   if(!isValidCell(nextCell)){
-    //     console.log("return block if hit alredy hit cell");
-    //     direction = getOppositeDirection(direction)
-    //     nextCell = getNextCell(initialHit, direction)
-    //     if(!isValidCell(nextCell)) {
-    //       return {placement:null, coords:generateRandomCoordinates()}
-    //     }else {
-    //       nextLogicalAttackInfo.coords = nextCell
-    //       nextLogicalAttackInfo.currentPath = "right"
-    //       return {placement: placement, coords: nextCell}
-    //     }
-    //   }
-
-    //   return {placement, coords: nextCell, path: "left"}
-    // }
-
-    // if(direction === "down") {
-    //   let nextCell = getNextCell(coords, direction)
-    //   if(!isValidCell(nextCell)){
-    //     console.log("return block if hit alredy hit cell");
-    //     direction = getOppositeDirection(direction)
-    //     nextCell = getNextCell(initialHit, direction)
-    //     if(!isValidCell(nextCell)){
-    //       return {placement:null, coords:generateRandomCoordinates()}
-    //     }else {
-    //       nextLogicalAttackInfo.coords = nextCell
-    //       nextLogicalAttackInfo.currentPath = "up"
-    //       return {placement: placement, coords: nextCell}
-    //     }
-    //   }
-    //   return {placement, coords: nextCell}
-    // }
-
-    // if(direction === "up") {
-    //   let nextCell = getNextCell(coords, direction)
-    //   if(!isValidCell(nextCell)){
-    //     console.log("return block if hit alredy hit cell");
-    //     direction = getOppositeDirection(direction)
-    //     nextCell = getNextCell(initialHit, direction)
-    //     if(!isValidCell(nextCell)) {
-    //       return {placement:null, coords:generateRandomCoordinates()}
-    //     }else {
-    //       nextLogicalAttackInfo.coords = nextCell
-    //       nextLogicalAttackInfo.currentPath = "down"
-    //       return {placement: placement, coords: nextCell}
-    //     }
-    //   }
-
-    //   return {placement, coords: nextCell, path: "up"}
-    // }
 
   }
 

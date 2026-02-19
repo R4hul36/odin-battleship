@@ -190,11 +190,15 @@ export default function gameEngine() {
       possibleMoves = [{placement: 'horizontal', coords:[x, y+1]}, {placement: 'horizontal', coords:[x, y-1]}, {placement: 'vertical', coords:[x+1, y]}, {placement: 'vertical', coords:[x-1, y]}]
       
       possibleMoves = filterValidMoves(possibleMoves, failedPaths, initialHit)
+      if(possibleMoves.length === 0) {
+          return {placement: null, coords: generateRandomCoordinates()}
+      }
       
       if(placement === null ){
         console.log(possibleMoves)
         randomNum = generateRandomNumber(possibleMoves.length)
         console.log(randomNum)
+       
         return possibleMoves[randomNum]
       }else if (placement){
         possibleMoves = possibleMoves.filter(move => move.placement === placement)

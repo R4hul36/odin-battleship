@@ -86,46 +86,10 @@ export default function gameEngine() {
   }
   function computerAttack() {
     if (gamePhase === 'running' && computerTurn) {
-      // let {placement, coords} = computerMove()
-      // let[x,y] = coords
-      // while (!humanPlayer.receiveAttack(x, y)) {
-      //   console.log('attacks')
-      //   if(nextLogicalAttackInfo!==null && nextLogicalAttackInfo.placement){
-      //     nextLogicalAttackInfo.state= "miss"
-      //   }
-      //   let newMove = computerMove()
-      //   placement = newMove.placement
-      //   ;[x,y] = newMove.coords
-      // }
-      // if(humanPlayer.isHit(x,y) && nextLogicalAttackInfo === null){
-      //   nextLogicalAttackInfo = { state: "hit", initialHit: [x,y],coords: [x,y], placement: null, currentPath: null, failedPaths: []}
-        
-      // }
-
-      // if(humanPlayer.isShipSunk(x,y)){
-      //   nextLogicalAttackInfo = null
-      // }
-
-      // if(humanPlayer.isHit(x,y) && nextLogicalAttackInfo !== null){
-      //   nextLogicalAttackInfo.state = "hit"
-      //   nextLogicalAttackInfo.coords = [x,y]
-      //   nextLogicalAttackInfo.placement = placement
-
-      // }
-
-
-      // if(!humanPlayer.isHit(x,y) && nextLogicalAttackInfo) {
-      //   nextLogicalAttackInfo.state = "miss"
-      //   nextLogicalAttackInfo.coords = [x,y]
-        
-
-      // }
       let {placement, coords} = computerMove()
       let [x,y] = coords
-
       let boardAttack = humanPlayer.receiveAttack(Number(x), Number(y))
 
-    
       while(!boardAttack.valid){
         console.log('retry')
         console.log(nextLogicalAttackInfo)
@@ -156,18 +120,6 @@ export default function gameEngine() {
         }
       } 
 
-      // if(!boardAttack.valid && nextLogicalAttackInfo) {
-      //   nextLogicalAttackInfo.state = "invalid"
-      //   nextLogicalAttackInfo.failedPaths.push([x,y])
-      // }
-      
-      // if(!boardAttack.valid && nextLogicalAttackInfo){
-      //   console.log("invalid")
-      //   if(nextLogicalAttackInfo.placement){
-      //     nextLogicalAttackInfo.state = "invalid"
-      //   }
-      // }
-
       onAllShipsSunk()
       humanTurn = true
       computerTurn = false
@@ -176,7 +128,6 @@ export default function gameEngine() {
 
   function computerMove() {
     //find a target by attacking ship randomly
-   
    let randomNum;
    let possibleMoves
    if(nextLogicalAttackInfo === null){
@@ -190,12 +141,12 @@ export default function gameEngine() {
       possibleMoves = [{placement: 'horizontal', coords:[x, y+1]}, {placement: 'horizontal', coords:[x, y-1]}, {placement: 'vertical', coords:[x+1, y]}, {placement: 'vertical', coords:[x-1, y]}]
       
       possibleMoves = filterValidMoves(possibleMoves, failedPaths, initialHit)
-      if(possibleMoves.length === 0) {
-          return {placement: null, coords: generateRandomCoordinates()}
-      }
       
       if(placement === null ){
         console.log(possibleMoves)
+        if(possibleMoves.length === 0) {
+          return {placement: null, coords: generateRandomCoordinates()}
+        }   
         randomNum = generateRandomNumber(possibleMoves.length)
         console.log(randomNum)
        

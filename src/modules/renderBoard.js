@@ -10,7 +10,6 @@ export default function renderGameBoard(
   const boardContainer = document.createElement('div')
   boardContainer.classList.add('board')
 
-
   for (let i = 0; i < boardWidth; i++) {
     for (let j = 0; j < boardHeight; j++) {
       const cell = document.createElement('div')

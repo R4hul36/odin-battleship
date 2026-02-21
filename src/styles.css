@@ -20,24 +20,28 @@ body {
 }
 
 .hum-container {
-  display: flex;
+  /* display: flex;
   flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center; */
+  position: relative;
 }
 
 .board {
-  height: 400px;
-  width: 400px;
+  height: 360px;
+  width: 360px;
   border: 1px solid white;
   background-color: rgb(222, 237, 250);
   display: grid;
   grid-template-columns: repeat(10, 1fr);
+  
 }
 
 
 .cell {
   border: 1px solid white;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   /* display: grid;
   place-items: center; */
   display: flex;
@@ -94,4 +98,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.orientation-btn {
+  position: absolute;
+  top: -40px
+}
+
+.toggle-btn {
+  width: 360px;
+  padding: 8px;
 }

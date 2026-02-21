@@ -36,7 +36,7 @@ export default function renderOrientationBtns() {
   btnContainer.classList.add('orientation-btn')
   const toggleBtn = document.createElement('button')
   toggleBtn.classList.add('toggle-btn')
-  toggleBtn.textContent = `${engine.getOrientation() === "horizontal"? "y-axis" : "x-axis"}`
+  toggleBtn.textContent = `${engine.getOrientation() === "horizontal"? "Vertical" : "Horizontal"}`
   btnContainer.appendChild(toggleBtn)
   return btnContainer
 }

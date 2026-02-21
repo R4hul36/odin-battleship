@@ -21,13 +21,15 @@ export default function renderGameBoard(
         }
         if (player.isHit(i, j)) {
           cell.classList.add('ship-hit')
-          const dmgIndicator = document.createElement('p')
+          const dmgIndicator = document.createElement('span')
           dmgIndicator.textContent = 'x'
           cell.appendChild(dmgIndicator)
         } else if (player.isMiss(i, j)) {
           cell.classList.add('miss')
         } else if (!hideShip && player.isShip(i, j)) {
           cell.classList.add('ship')
+          const color = player.getShipAt(i,j).shipInfo().color
+          cell.style.backgroundColor = color
         }
       }
 

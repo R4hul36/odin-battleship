@@ -116,6 +116,12 @@ export default function GameBoard() {
     return isMissed
   }
 
+  function getShipAt(x,y) {
+    if(board[x][y]!== null) {
+      return board[x][y]
+    }
+  }
+
   return {
     createBoard,
     placeShip,
@@ -127,5 +133,6 @@ export default function GameBoard() {
     isMiss,
     isHit,
     isShipSunk,
+    getShipAt
   }
 }

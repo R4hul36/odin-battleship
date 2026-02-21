@@ -26,7 +26,8 @@ body {
 .board {
   height: 400px;
   width: 400px;
-  border: 0.5px solid black;
+  border: 1px solid white;
+  background-color: rgb(214, 233, 249);
   display: grid;
   grid-template-columns: repeat(10, 1fr);
 }
@@ -37,19 +38,24 @@ body {
 }
 
 .cell {
-  border: 0.5px solid black;
+  border: 1px solid white;
   width: 40px;
   height: 40px;
-  display: grid;
-  place-items: center;
+  /* display: grid;
+  place-items: center; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cell p {
+.cell span {
   color: red;
+  
 }
 
 .ship {
-  background-color: greenyellow;
+  /* background-color: red; */
+  
 }
 
 .ship-sunk {
@@ -58,10 +64,15 @@ body {
 
 .ship-hit {
   text-align: center;
+  background-color: rgb(248, 220, 220);
+}
+
+.ship-sunk {
+  background-color: lightcoral;
 }
 
 .miss {
-  background-color: lightblue;
+  background-color: rgb(127, 207, 234);
 }
 
 .msg-container,

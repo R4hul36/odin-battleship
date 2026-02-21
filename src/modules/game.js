@@ -290,7 +290,6 @@ export default function gameEngine() {
 
   function resetGame() {
     gamePhase = 'setup'
-    startGame('auto')
     humanTurn = true
     computerTurn = false
     winner = null

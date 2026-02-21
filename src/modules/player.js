@@ -5,12 +5,12 @@ import Ship from './ship.js'
 export default function Player(name) {
   const board = GameBoard()
   board.createBoard()
-  const fleet = [Ship(2, 'Corvettes'), Ship(3, 'Destroyers'), Ship(3, 'Destroyers'), Ship(4, 'Cruisers'), Ship(5, "Aircraft Carriers")]
+  const fleet = [Ship(2, 'Corvettes', "#00838f"), Ship(3, 'Destroyers', "#455a64"), Ship(3, 'Destroyers', "#455a64"), Ship(4, 'Cruisers', "#607d8b"), Ship(5, "Aircraft Carriers", "#546e7a")]
 
   function getPlayerName() {
     return name
   } 
-  
+   
   function getFleet () {
     return fleet
   }
@@ -54,6 +54,11 @@ export default function Player(name) {
     return board.getPlacedShipsCount()
   }
 
+  function getShipAt(x,y) {
+    return board.getShipAt(x,y)
+  }
+
+
   return {
     getPlayerName,
     placeShip,
@@ -66,5 +71,6 @@ export default function Player(name) {
     isShip,
     isMiss,
     isHit,
+    getShipAt
   }
 }

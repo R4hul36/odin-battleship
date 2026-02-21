@@ -26,8 +26,12 @@ export default function gameEngine() {
     onShipsPlaced()
   }
 
-  function setOrientation(newOrientation) {
-    orientation = newOrientation
+  function setOrientation() {
+    orientation = orientation === "horizontal" ? "vertical" : "horizontal"
+  }
+
+  function getOrientation() {
+    return orientation
   }
 
   function getHumanPlayer() {
@@ -323,6 +327,7 @@ export default function gameEngine() {
     getHumanPlayer,
     getComputerPlayer,
     setOrientation,
+    getOrientation,
     placeShipsManually,
     humanAttack,
     computerAttack,

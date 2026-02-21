@@ -21,21 +21,18 @@ body {
 
 .hum-container {
   display: flex;
+  flex-direction: column-reverse;
 }
 
 .board {
   height: 400px;
   width: 400px;
   border: 1px solid white;
-  background-color: rgb(214, 233, 249);
+  background-color: rgb(222, 237, 250);
   display: grid;
   grid-template-columns: repeat(10, 1fr);
 }
 
-.orientation-btns {
-  position: fixed;
-  bottom: 660px;
-}
 
 .cell {
   border: 1px solid white;
@@ -53,13 +50,15 @@ body {
   
 }
 
-.ship {
+.ship,
+.ship-hit{
   /* background-color: red; */
-  
+  border: none;
+  border-radius: 5px;
 }
 
 .ship-sunk {
-  background-color: lightcoral;
+  background-color: rgb(249, 137, 137);
 }
 
 .ship-hit {
@@ -72,7 +71,7 @@ body {
 }
 
 .miss {
-  background-color: rgb(127, 207, 234);
+  background-color: rgb(152, 225, 250);
 }
 
 .msg-container,

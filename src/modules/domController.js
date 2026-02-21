@@ -33,15 +33,11 @@ overlay.addEventListener('click', (e) => {
 
 export default function renderOrientationBtns() {
   const btnContainer = document.createElement('div')
-  btnContainer.classList.add('orientation-btns')
-  const verticalBtn = document.createElement('button')
-  verticalBtn.classList.add('vertical-btn')
-  verticalBtn.textContent = 'Place Vertically'
-  const horizontalBtn = document.createElement('button')
-  horizontalBtn.classList.add('horizontal-btn')
-  horizontalBtn.textContent = 'Place Horizontally'
-  btnContainer.appendChild(horizontalBtn)
-  btnContainer.appendChild(verticalBtn)
+  btnContainer.classList.add('orientation-btn')
+  const toggleBtn = document.createElement('button')
+  toggleBtn.classList.add('toggle-btn')
+  toggleBtn.textContent = `${engine.getOrientation() === "horizontal"? "y-axis" : "x-axis"}`
+  btnContainer.appendChild(toggleBtn)
   return btnContainer
 }
 
@@ -54,11 +50,13 @@ computerBoard.classList.add('computer-container')
 renderGameBoard(computerBoard, { hideShip: true })
 
 humanBoard.addEventListener('click', (e) => {
-  if (e.target.classList.contains('horizontal-btn')) {
-    engine.setOrientation('horizontal')
-  } else if (e.target.classList.contains('vertical-btn')) {
-    engine.setOrientation('vertical')
+  
+  if (e.target.classList.contains('toggle-btn')) {
+    engine.setOrientation()
   }
+  let btnContainer = document.querySelector('.orientation-btn')
+  humanBoard.removeChild(btnContainer) 
+  humanBoard.appendChild(renderOrientationBtns())
 })
 
 humanBoard.addEventListener('click', (e) => {

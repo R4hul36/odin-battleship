@@ -138,9 +138,10 @@ function gameResult(player) {
   restartBtn.textContent = 'Restart'
   restartBtn.classList.add('restart-btn')
   restartBtn.addEventListener('click', (e) => {
-    overlay.innerHTML = ''
-    overlay.classList.remove('visible')
+    // overlay.innerHTML = ''
+    // overlay.classList.remove('visible')
     resetGame()
+    initialSetupModal()
   })
   msgContainer.appendChild(resultMsg)
   msgContainer.appendChild(restartBtn)
@@ -179,6 +180,6 @@ function initialSetupModal() {
 
 function resetGame() {
   engine.resetGame()
-  renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
-  renderGameBoard(computerBoard, { hideShip: true }, engine.getComputerPlayer())
+  renderGameBoard(humanBoard, { hideShip: false })
+  renderGameBoard(computerBoard, { hideShip: true })
 }

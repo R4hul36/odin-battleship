@@ -312,6 +312,8 @@ export default function gameEngine() {
     gamePhase = 'setup'
     humanTurn = true
     computerTurn = false
+    humanPlayer = null
+    computerPlayer = null
     winner = null
     nextLogicalAttackInfo = null
   }

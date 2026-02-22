@@ -6,6 +6,8 @@ import renderGameBoard from './renderBoard.js'
 import renderOverlay from './renderOverlay.js'
 
 const engine = gameEngine()
+let humanIndicator
+let computerIndicator
 
 export const overlay = renderOverlay()
 overlay.classList.add('visible')
@@ -13,6 +15,38 @@ initialSetupModal()
 
 function renderGame (board, hideShip, player) {
   renderGameBoard(board, hideShip, player)
+  if(engine.currGamePhase() === "running") {
+    renderTurnIndicator()
+  }
+}
+
+function renderTurnIndicator () {
+  console.log("renderTurnIndicator called", humanIndicator)
+  if(!humanIndicator) {
+     humanIndicator = createTurnIndicator("Your turn")
+    computerIndicator = createTurnIndicator("Computer's turn")
+
+    humanIndicator.classList.add('active')
+    computerIndicator.classList.add('inactive')
+  }
+
+  
+  computerBoard.appendChild(humanIndicator)
+  humanBoard.appendChild(computerIndicator)
+}
+
+function updateActiveIndicator(player) {  
+  if(player === "human") {
+    humanIndicator.classList.add("active")
+    humanIndicator.classList.remove('inactive')
+    computerIndicator.classList.add('inactive')
+    computerIndicator.classList.remove('active')
+  }else {
+    humanIndicator.classList.add("inactive")
+    humanIndicator.classList.remove('active')
+    computerIndicator.classList.add('active')
+    computerIndicator.classList.remove('inactive')
+  }
 }
 
 //intial game setup overlay lister
@@ -45,12 +79,13 @@ export default function renderOrientationBtns() {
   return btnContainer
 }
 
-function renderTurnIndicator (msg) {
+function createTurnIndicator (msg) {
   const indicatorContainer = document.createElement("div")
   indicatorContainer.classList.add('indicator-container')
   const indicatorMsg = document.createElement("p")
   indicatorMsg.textContent = msg
   indicatorContainer.appendChild(indicatorMsg)
+  return indicatorContainer
 }
 
 export const humanBoard = document.createElement('div')
@@ -109,6 +144,7 @@ computerBoard.addEventListener('click', (e) => {
       },
       engine.getComputerPlayer(),
     )
+    updateActiveIndicator('computer')
     if (engine.checkWinner().status) {
       console.log(`game finishes ${engine.checkWinner().winner} won the game`)
       gameResult(engine.checkWinner().winner)
@@ -124,6 +160,7 @@ computerBoard.addEventListener('click', (e) => {
         },
         engine.getHumanPlayer(),
       )
+      updateActiveIndicator('human')
       if (
         engine.checkWinner().status &&
         engine.checkWinner().winner === 'Computer'
@@ -190,6 +227,8 @@ function initialSetupModal() {
 
 function resetGame() {
   engine.resetGame()
+  humanIndicator = null
+  computerIndicator = null
   renderGame(humanBoard, { hideShip: false })
   renderGame(computerBoard, { hideShip: true })
 }

@@ -11,6 +11,10 @@ export const overlay = renderOverlay()
 overlay.classList.add('visible')
 initialSetupModal()
 
+function renderGame (board, hideShip, player) {
+  renderGameBoard(board, hideShip, player)
+}
+
 //intial game setup overlay lister
 overlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('manual-btn')) {
@@ -20,9 +24,9 @@ overlay.addEventListener('click', (e) => {
   } else if (e.target.classList.contains('auto-btn')) {
     overlay.classList.remove('visible')
     engine.startGame('auto')
-    renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
+    renderGame(humanBoard, { hideShip: false }, engine.getHumanPlayer())
   }
-  renderGameBoard(
+  renderGame(
     computerBoard,
     {
       hideShip: true,
@@ -41,13 +45,21 @@ export default function renderOrientationBtns() {
   return btnContainer
 }
 
+function renderTurnIndicator (msg) {
+  const indicatorContainer = document.createElement("div")
+  indicatorContainer.classList.add('indicator-container')
+  const indicatorMsg = document.createElement("p")
+  indicatorMsg.textContent = msg
+  indicatorContainer.appendChild(indicatorMsg)
+}
+
 export const humanBoard = document.createElement('div')
 humanBoard.classList.add('hum-container')
-renderGameBoard(humanBoard, { hideShip: false })
+renderGame(humanBoard, { hideShip: false })
 
 export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
-renderGameBoard(computerBoard, { hideShip: true })
+renderGame(computerBoard, { hideShip: true })
 
 humanBoard.addEventListener('click', (e) => {
   
@@ -72,7 +84,7 @@ humanBoard.addEventListener('click', (e) => {
     console.log('sdfdf')
     engine.placeShipsManually(x, y, 'horizontal')
 
-    renderGameBoard(humanBoard, { hideShip: false }, engine.getHumanPlayer())
+    renderGame(humanBoard, { hideShip: false }, engine.getHumanPlayer())
     if (engine.currGamePhase() === 'setup') {
       humanBoard.appendChild(renderOrientationBtns())
     }
@@ -90,7 +102,7 @@ computerBoard.addEventListener('click', (e) => {
     if (!engine.humanAttack(x, y)) {
       return
     }
-    renderGameBoard(
+    renderGame(
       computerBoard,
       {
         hideShip: true,
@@ -105,7 +117,7 @@ computerBoard.addEventListener('click', (e) => {
     // make computerTurn true, disable the computer board,
     setTimeout(() => {
       engine.computerAttack()
-      renderGameBoard(
+      renderGame(
         humanBoard,
         {
           hideShip: false,
@@ -178,6 +190,6 @@ function initialSetupModal() {
 
 function resetGame() {
   engine.resetGame()
-  renderGameBoard(humanBoard, { hideShip: false })
-  renderGameBoard(computerBoard, { hideShip: true })
+  renderGame(humanBoard, { hideShip: false })
+  renderGame(computerBoard, { hideShip: true })
 }

@@ -28,8 +28,7 @@ function renderTurnIndicator () {
 
     humanIndicator.classList.add('active')
     computerIndicator.classList.add('inactive')
-  }
-
+  } 
   
   computerBoard.appendChild(humanIndicator)
   humanBoard.appendChild(computerIndicator)
@@ -74,7 +73,7 @@ export default function renderOrientationBtns() {
   btnContainer.classList.add('orientation-btn')
   const toggleBtn = document.createElement('button')
   toggleBtn.classList.add('toggle-btn')
-  toggleBtn.textContent = `${engine.getOrientation() === "horizontal"? "Vertical" : "Horizontal"}`
+  toggleBtn.textContent = `${engine.getOrientation() === "horizontal"? "Place Vertically" : "Place Horizontally"}`
   btnContainer.appendChild(toggleBtn)
   return btnContainer
 }
@@ -169,7 +168,7 @@ computerBoard.addEventListener('click', (e) => {
         console.log(`game finishes ${engine.checkWinner().winner} won the game`)
         overlay.classList.add('visible')
       }
-    }, 300)
+    }, 500)
   }
 })
 

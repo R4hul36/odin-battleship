@@ -138,3 +138,7 @@ h1{
   width: 360px;
   padding: 8px;
 }
+
+.invalid-placement {
+  cursor: not-allowed;
+}

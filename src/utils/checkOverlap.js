@@ -1,4 +1,5 @@
 export default function isNonOverlapping(x, y, board, shipLength, orientation) {
+  console.log(x, y, board, shipLength, orientation)
   let nonOverlapping = true
   for (let i = 0; i < shipLength; i++) {
     if (orientation === 'horizontal' && board[x][y + i] !== null) {
@@ -11,4 +12,4 @@ export default function isNonOverlapping(x, y, board, shipLength, orientation) {
   }
 
   return nonOverlapping
-}
+} 

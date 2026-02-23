@@ -5,6 +5,10 @@ import {
   generateRandomNumber,
 } from '../utils/generateCoordinates.js'
 import { placeShips } from '../utils/placeShips.js'
+import isNonOverlapping from '../utils/checkOverlap.js'
+import isValidBoundary from '../utils/checkBoundary.js'
+
+
 
 export default function gameEngine() {
   let gamePhase = 'setup'
@@ -49,6 +53,15 @@ export default function gameEngine() {
     const ship = humanFleet[count]
     humanPlayer.placeShip(ship, [Number(x), Number(y)], orientation)
     onShipsPlaced()
+  }
+
+  function canPlaceShips(x, y) {
+    const count = humanPlayer.getPlacedShipsCount()
+
+    const humanFleet = humanPlayer.getFleet()
+    const ship = humanFleet[count]
+    // return isNonOverlapping(Number(x), Number(y), humanPlayer, ship.shipInfo().length, orientation)
+    return  humanPlayer.canPlaceShips(Number(x), Number(y), ship.shipInfo().length, orientation)
   }
 
   function onShipsPlaced() {
@@ -210,12 +223,12 @@ export default function gameEngine() {
       return (
         !humanPlayer.isHit(x, y) &&
         !humanPlayer.isMiss(x, y) &&
-        isValidBoundary([x, y])
+        isValidMove([x, y])
       )
     })
   }
 
-  function isValidBoundary(coords) {
+  function isValidMove(coords) {
     console.log('checking computer boundary')
 
     const boardMin = 0
@@ -227,7 +240,7 @@ export default function gameEngine() {
   function handleHit(placement, initialHit, coords) {
     let direction = determineDirection(initialHit, coords)
     let nextCell = getNextCell(coords, direction)
-    if (!isValidCell(nextCell) || !isValidBoundary(nextCell)) {
+    if (!isValidCell(nextCell) || !isValidMove(nextCell)) {
       console.log('return block if hit alredy hit cell')
       direction = getOppositeDirection(direction)
       nextCell = getNextCell(initialHit, direction)
@@ -329,6 +342,7 @@ export default function gameEngine() {
     setOrientation,
     getOrientation,
     placeShipsManually,
+    canPlaceShips,
     humanAttack,
     computerAttack,
     checkWinner,

@@ -22,6 +22,10 @@ export default function Player(name) {
     return false
   }
 
+  function canPlaceShips(x,y,length, orientation) {
+    return board.canPlaceShips(x,y,length,orientation)
+  }
+
   function receiveAttack(x, y) {
     return board.receiveAttack(x, y)
   }
@@ -62,6 +66,7 @@ export default function Player(name) {
   return {
     getPlayerName,
     placeShip,
+    canPlaceShips,
     getPlacedShipsCount,
     getFleet,
     receiveAttack,

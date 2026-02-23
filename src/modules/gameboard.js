@@ -25,11 +25,16 @@ export default function GameBoard() {
         } else if (orientation === 'vertical') {
           board[x + i][y] = ship
         }
-      }
+      } 
       placedShipsCount++
       return true
     }
     return false
+  }
+
+
+  function canPlaceShips(x, y, length, orientation) {
+    return  isValidBoundary(x, y, length, orientation) && isNonOverlapping(Number(x), Number(y), board, length, orientation)
   }
 
   function getPlacedShipsCount () {
@@ -133,6 +138,7 @@ export default function GameBoard() {
     isMiss,
     isHit,
     isShipSunk,
-    getShipAt
+    getShipAt,
+    canPlaceShips
   }
 }

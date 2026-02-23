@@ -51,9 +51,10 @@ function updateActiveIndicator(player) {
 //intial game setup overlay lister
 overlay.addEventListener('click', (e) => {
   if (e.target.classList.contains('manual-btn')) {
+    engine.startGame()
     overlay.classList.remove('visible')
     humanBoard.appendChild(renderOrientationBtns())
-    engine.startGame()
+    
   } else if (e.target.classList.contains('auto-btn')) {
     overlay.classList.remove('visible')
     engine.startGame('auto')
@@ -125,6 +126,22 @@ humanBoard.addEventListener('click', (e) => {
   }
 })
 
+humanBoard.addEventListener('mouseover', (e) => {
+  if(engine.currGamePhase() === "running" || engine.currGamePhase() === "gameover"){
+    return
+  }
+  if (e.target.classList.contains('cell')) {
+    const [x, y] = e.target.dataset.coords.split(',')
+    console.log(e.target, x ,y)
+    if(!engine.canPlaceShips(x,y)){
+      e.target.classList.add('invalid-placement')
+    }else {
+      e.target.classList.remove('invalid-placement')
+    }
+  } 
+})
+
+
 computerBoard.addEventListener('click', (e) => {
   if (engine.currGamePhase() === 'gameover') {
     return
@@ -171,6 +188,8 @@ computerBoard.addEventListener('click', (e) => {
     }, 500)
   }
 })
+
+
 
 function gameResult(player) {
   //const topContainer = document.querySelector('.top-section')

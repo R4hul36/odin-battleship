@@ -9,12 +9,12 @@ jest.mock('../src/utils/generateCoordinates', () => jest.fn(() => [0, 4]))
 describe('Gameboard', () => {
   let newBoard
   beforeEach(() => {
-    newBoard = GameBoard()
+    newBoard = GameBoard() 
     newBoard.createBoard()
   })
   it('check if ship receives damage correctly', () => {
     const newShip = Ship(3)
-    newBoard.placeShipsHorizontally(newShip, [0,4])
+    newBoard.placeShip(newShip, [0,4], 'horizontal')
     newBoard.receiveAttack(0, 4)
     newBoard.receiveAttack(1, 7)
     expect(newShip.hitCount()).toBe(1)
@@ -22,14 +22,14 @@ describe('Gameboard', () => {
 
   it('check if a ship is sunk', () => {
     const newShip = Ship(1)
-    newBoard.placeShipsHorizontally(newShip, [0, 4])
+    newBoard.placeShip(newShip, [0, 4], 'horizontal')
     newBoard.receiveAttack(0, 4)
     expect(newShip.isSunk()).toBe(true)
   })
 
   it('checks if all the ships in the board are sunk', () => {
     const newShip = Ship(1)
-    newBoard.placeShipsHorizontally(newShip, [1,5])
+    newBoard.placeShip(newShip, [1,5], 'horizontal')
     newBoard.receiveAttack(1, 5)
     expect(newBoard.allShipsSunk()).toBe(true)
   })

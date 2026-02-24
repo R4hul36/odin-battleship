@@ -13,6 +13,7 @@ export const overlay = renderOverlay()
 overlay.classList.add('visible')
 initialSetupModal()
 
+// Render the gameboards and the turn indicators
 function renderGame (board, hideShip, player) {
   renderGameBoard(board, hideShip, player)
   if(engine.currGamePhase() === "running") {
@@ -34,6 +35,7 @@ function renderTurnIndicator () {
   humanBoard.appendChild(computerIndicator)
 }
 
+// Updates the active class each turn
 function updateActiveIndicator(player) {  
   if(player === "human") {
     humanIndicator.classList.add("active")
@@ -69,6 +71,7 @@ overlay.addEventListener('click', (e) => {
   )
 })
 
+// render the orientation button
 export default function renderOrientationBtns() {
   const btnContainer = document.createElement('div')
   btnContainer.classList.add('orientation-btn')
@@ -96,6 +99,7 @@ export const computerBoard = document.createElement('div')
 computerBoard.classList.add('computer-container')
 renderGame(computerBoard, { hideShip: true })
 
+// Toggles the orientaion after each click and re-renders the button label
 humanBoard.addEventListener('click', (e) => {
   
   if (e.target.classList.contains('toggle-btn')) {
@@ -106,6 +110,7 @@ humanBoard.addEventListener('click', (e) => {
   humanBoard.appendChild(renderOrientationBtns())
 })
 
+// In setup mode, each click on a cell in the humanboard places a new ship 
 humanBoard.addEventListener('click', (e) => {
   if (
     engine.currGamePhase() === 'gameover' ||
@@ -126,6 +131,7 @@ humanBoard.addEventListener('click', (e) => {
   }
 })
 
+// In setup mode shows a restriction icon if it's not possible to place a ship
 humanBoard.addEventListener('mouseover', (e) => {
   if(engine.currGamePhase() === "running" || engine.currGamePhase() === "gameover"){
     return
@@ -141,7 +147,7 @@ humanBoard.addEventListener('mouseover', (e) => {
   } 
 })
 
-
+// Handles each players turn and renders the changed state on the board
 computerBoard.addEventListener('click', (e) => {
   if (engine.currGamePhase() === 'gameover') {
     return
@@ -150,6 +156,8 @@ computerBoard.addEventListener('click', (e) => {
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
     console.log('sdfsdf')
+
+    // Human players turn to attack
     if (!engine.humanAttack(x, y)) {
       return
     }
@@ -166,7 +174,7 @@ computerBoard.addEventListener('click', (e) => {
       gameResult(engine.checkWinner().winner)
       overlay.classList.add('visible')
     }
-    // make computerTurn true, disable the computer board,
+    // Computer players turn to attack
     setTimeout(() => {
       engine.computerAttack()
       renderGame(
@@ -190,7 +198,7 @@ computerBoard.addEventListener('click', (e) => {
 })
 
 
-
+// The results overlay with a restart button
 function gameResult(player) {
   //const topContainer = document.querySelector('.top-section')
   overlay.innerHTML = ''
@@ -213,6 +221,7 @@ function gameResult(player) {
   overlay.appendChild(msgContainer)
 }
 
+// Initial setup overlay
 function initialSetupModal() {
   overlay.innerHTML = ''
   const setUpContainer = document.createElement('div')

@@ -32,7 +32,7 @@ export default function GameBoard() {
     return false
   }
 
-
+m
   function canPlaceShips(x, y, length, orientation) {
     return  isValidBoundary(x, y, length, orientation) && isNonOverlapping(Number(x), Number(y), board, length, orientation)
   }

@@ -8,8 +8,6 @@ import { placeShips } from '../utils/placeShips.js'
 import isNonOverlapping from '../utils/checkOverlap.js'
 import isValidBoundary from '../utils/checkBoundary.js'
 
-
-
 export default function gameEngine() {
   let gamePhase = 'setup'
   let orientation = 'horizontal'
@@ -32,7 +30,7 @@ export default function gameEngine() {
   }
 
   function setOrientation() {
-    orientation = orientation === "horizontal" ? "vertical" : "horizontal"
+    orientation = orientation === 'horizontal' ? 'vertical' : 'horizontal'
   }
 
   function getOrientation() {
@@ -64,7 +62,12 @@ export default function gameEngine() {
     const humanFleet = humanPlayer.getFleet()
     const ship = humanFleet[count]
     // return isNonOverlapping(Number(x), Number(y), humanPlayer, ship.shipInfo().length, orientation)
-    return  humanPlayer.canPlaceShips(Number(x), Number(y), ship.shipInfo().length, orientation)
+    return humanPlayer.canPlaceShips(
+      Number(x),
+      Number(y),
+      ship.shipInfo().length,
+      orientation,
+    )
   }
 
   // Change game state once all ships are placed
@@ -115,25 +118,19 @@ export default function gameEngine() {
 
       // If it's not a valid attack, request a new move from computerMove
       while (!boardAttack.valid) {
-        console.log('retry')
-        console.log(nextLogicalAttackInfo)
         let newMove = computerMove()
         placement = newMove.placement
         ;[x, y] = newMove.coords
-        console.log(x, y, 'inside loop')
         boardAttack = humanPlayer.receiveAttack(Number(x), Number(y))
-        console.log(boardAttack.result, boardAttack.valid)
       }
 
       // These blocks check if a ship isSunk, initial hit, miss etc and change the logicalAttackInfo state accordingly
       if (boardAttack.result === 'hit' && boardAttack.ship.isSunk()) {
-        console.log('ship sunk')
         nextLogicalAttackInfo = null
       } else if (
         boardAttack.result === 'hit' &&
         nextLogicalAttackInfo === null
       ) {
-        console.log('after 1st attack')
         nextLogicalAttackInfo = {
           state: 'hit',
           initialHit: [x, y],
@@ -146,8 +143,6 @@ export default function gameEngine() {
         boardAttack.result === 'hit' &&
         nextLogicalAttackInfo !== null
       ) {
-        console.log(placement, 'after 2 attacks')
-
         nextLogicalAttackInfo.state = 'hit'
         nextLogicalAttackInfo.coords = [x, y]
         nextLogicalAttackInfo.placement = placement
@@ -186,27 +181,21 @@ export default function gameEngine() {
       possibleMoves = filterValidMoves(possibleMoves, failedPaths, initialHit)
 
       if (placement === null) {
-        console.log(possibleMoves)
         if (possibleMoves.length === 0) {
           return { placement: null, coords: generateRandomCoordinates() }
         }
         randomNum = generateRandomNumber(possibleMoves.length)
-        console.log(randomNum)
-
         return possibleMoves[randomNum]
       } else if (placement) {
         possibleMoves = possibleMoves.filter(
           (move) => move.placement === placement,
         )
         randomNum = generateRandomNumber(2)
-        console.log('placement mode on')
 
         if (state === 'miss') {
-          console.log('missed with placement known')
           return handleMiss(placement, initialHit, coords)
         }
         if ((state = 'hit')) {
-          console.log(initialHit, coords, 'hit block')
           return handleHit(placement, initialHit, coords)
         }
       }
@@ -223,7 +212,6 @@ export default function gameEngine() {
   function filterValidMoves(possibleMoves, failedPaths, initialHit) {
     let [x, y] = initialHit
     let moves = possibleMoves
-    console.log('filtering')
     return moves.filter((move) => {
       let [x, y] = move.coords
       return (
@@ -236,8 +224,6 @@ export default function gameEngine() {
 
   // checks if the coords are not out of bounds
   function isValidMove(coords) {
-    console.log('checking computer boundary')
-
     const boardMin = 0
     const boardMax = 9
     let [x, y] = coords
@@ -248,7 +234,6 @@ export default function gameEngine() {
     let direction = determineDirection(initialHit, coords)
     let nextCell = getNextCell(coords, direction)
     if (!isValidCell(nextCell) || !isValidMove(nextCell)) {
-      console.log('return block if hit alredy hit cell')
       direction = getOppositeDirection(direction)
       nextCell = getNextCell(initialHit, direction)
       if (!isValidCell(nextCell)) {
@@ -298,7 +283,7 @@ export default function gameEngine() {
     }
     return directions[direction]
   }
-  //Find the next cell after the direction is found 
+  //Find the next cell after the direction is found
   function getNextCell(coords, direction) {
     if (direction === 'right') {
       return [coords[0], coords[1] + 1]

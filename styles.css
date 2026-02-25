@@ -7,12 +7,11 @@
 body {
   font-family: sans-serif;
   background-color: rgb(246, 246, 246);
-  
 }
 
-h1{
+h1 {
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 5rem;
 }
 
 /* .main {
@@ -21,7 +20,7 @@ h1{
 } */
 
 .game-container {
-  width: 70vw;
+  width: 60vw;
   margin: 5rem auto auto auto;
   gap: 60px;
   display: grid;
@@ -29,12 +28,11 @@ h1{
 }
 
 .hum-container,
-.computer-container
-{
+.computer-container {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   position: relative;
 }
 
@@ -48,8 +46,9 @@ h1{
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .board.active {
@@ -68,15 +67,13 @@ h1{
 
 .cell span {
   color: red;
-  
 }
 
 .ship,
-.ship-hit{
+.ship-hit {
   /* background-color: red; */
   border: none;
   border-radius: 5px;
-  
 }
 
 .ship-sunk {
@@ -138,7 +135,7 @@ h1{
 
 .orientation-btn {
   position: absolute;
-  top: -40px
+  top: -40px;
 }
 
 .toggle-btn {
@@ -151,7 +148,7 @@ h1{
 }
 
 @media (max-width: 768px) {
-  .game-container{
+  .game-container {
     width: 100vw;
   }
 }

@@ -14,36 +14,35 @@ overlay.classList.add('visible')
 initialSetupModal()
 
 // Render the gameboards and the turn indicators
-function renderGame (board, hideShip, player) {
+function renderGame(board, hideShip, player) {
   renderGameBoard(board, hideShip, player)
-  if(engine.currGamePhase() === "running") {
+  if (engine.currGamePhase() === 'running') {
     renderTurnIndicator()
   }
 }
 
-function renderTurnIndicator () {
-  console.log("renderTurnIndicator called", humanIndicator)
-  if(!humanIndicator) {
-     humanIndicator = createTurnIndicator("Your turn")
+function renderTurnIndicator() {
+  if (!humanIndicator) {
+    humanIndicator = createTurnIndicator('Your turn')
     computerIndicator = createTurnIndicator("Computer's turn")
 
     humanIndicator.classList.add('active')
     computerIndicator.classList.add('inactive')
-  } 
-  
+  }
+
   computerBoard.appendChild(humanIndicator)
   humanBoard.appendChild(computerIndicator)
 }
 
 // Updates the active class each turn
-function updateActiveIndicator(player) {  
-  if(player === "human") {
-    humanIndicator.classList.add("active")
+function updateActiveIndicator(player) {
+  if (player === 'human') {
+    humanIndicator.classList.add('active')
     humanIndicator.classList.remove('inactive')
     computerIndicator.classList.add('inactive')
     computerIndicator.classList.remove('active')
-  }else {
-    humanIndicator.classList.add("inactive")
+  } else {
+    humanIndicator.classList.add('inactive')
     humanIndicator.classList.remove('active')
     computerIndicator.classList.add('active')
     computerIndicator.classList.remove('inactive')
@@ -56,7 +55,6 @@ overlay.addEventListener('click', (e) => {
     engine.startGame()
     overlay.classList.remove('visible')
     humanBoard.appendChild(renderOrientationBtns())
-    
   } else if (e.target.classList.contains('auto-btn')) {
     overlay.classList.remove('visible')
     engine.startGame('auto')
@@ -77,15 +75,15 @@ export default function renderOrientationBtns() {
   btnContainer.classList.add('orientation-btn')
   const toggleBtn = document.createElement('button')
   toggleBtn.classList.add('toggle-btn')
-  toggleBtn.textContent = `${engine.getOrientation() === "horizontal"? "Place Vertically" : "Place Horizontally"}`
+  toggleBtn.textContent = `${engine.getOrientation() === 'horizontal' ? 'Place Vertically' : 'Place Horizontally'}`
   btnContainer.appendChild(toggleBtn)
   return btnContainer
 }
 
-function createTurnIndicator (msg) {
-  const indicatorContainer = document.createElement("div")
+function createTurnIndicator(msg) {
+  const indicatorContainer = document.createElement('div')
   indicatorContainer.classList.add('indicator-container')
-  const indicatorMsg = document.createElement("p")
+  const indicatorMsg = document.createElement('p')
   indicatorMsg.textContent = msg
   indicatorContainer.appendChild(indicatorMsg)
   return indicatorContainer
@@ -101,16 +99,15 @@ renderGame(computerBoard, { hideShip: true })
 
 // Toggles the orientaion after each click and re-renders the button label
 humanBoard.addEventListener('click', (e) => {
-  
   if (e.target.classList.contains('toggle-btn')) {
     engine.setOrientation()
   }
   let btnContainer = document.querySelector('.orientation-btn')
-  humanBoard.removeChild(btnContainer) 
+  humanBoard.removeChild(btnContainer)
   humanBoard.appendChild(renderOrientationBtns())
 })
 
-// In setup mode, each click on a cell in the humanboard places a new ship 
+// In setup mode, each click on a cell in the humanboard places a new ship
 humanBoard.addEventListener('click', (e) => {
   if (
     engine.currGamePhase() === 'gameover' ||
@@ -121,7 +118,6 @@ humanBoard.addEventListener('click', (e) => {
 
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
-    console.log('sdfdf')
     engine.placeShipsManually(x, y, 'horizontal')
 
     renderGame(humanBoard, { hideShip: false }, engine.getHumanPlayer())
@@ -133,18 +129,20 @@ humanBoard.addEventListener('click', (e) => {
 
 // In setup mode shows a restriction icon if it's not possible to place a ship
 humanBoard.addEventListener('mouseover', (e) => {
-  if(engine.currGamePhase() === "running" || engine.currGamePhase() === "gameover"){
+  if (
+    engine.currGamePhase() === 'running' ||
+    engine.currGamePhase() === 'gameover'
+  ) {
     return
   }
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
-    console.log(e.target, x ,y)
-    if(!engine.canPlaceShips(x,y)){
+    if (!engine.canPlaceShips(x, y)) {
       e.target.classList.add('invalid-placement')
-    }else {
+    } else {
       e.target.classList.remove('invalid-placement')
     }
-  } 
+  }
 })
 
 // Handles each players turn and renders the changed state on the board
@@ -155,8 +153,6 @@ computerBoard.addEventListener('click', (e) => {
 
   if (e.target.classList.contains('cell')) {
     const [x, y] = e.target.dataset.coords.split(',')
-    console.log('sdfsdf')
-
     // Human players turn to attack
     if (!engine.humanAttack(x, y)) {
       return
@@ -170,7 +166,6 @@ computerBoard.addEventListener('click', (e) => {
     )
     updateActiveIndicator('computer')
     if (engine.checkWinner().status) {
-      console.log(`game finishes ${engine.checkWinner().winner} won the game`)
       gameResult(engine.checkWinner().winner)
       overlay.classList.add('visible')
     }
@@ -190,13 +185,11 @@ computerBoard.addEventListener('click', (e) => {
         engine.checkWinner().winner === 'Computer'
       ) {
         gameResult(engine.checkWinner().winner)
-        console.log(`game finishes ${engine.checkWinner().winner} won the game`)
         overlay.classList.add('visible')
       }
     }, 500)
   }
 })
-
 
 // The results overlay with a restart button
 function gameResult(player) {

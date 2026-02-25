@@ -20,6 +20,7 @@ export default function gameEngine() {
   let computerPlayer
   let nextLogicalAttackInfo = null
 
+  // Initialize a game by creating players, which will also create their particular boars
   function startGame(mode) {
     humanPlayer = Player('Human')
     if (mode === 'auto') {
@@ -46,6 +47,7 @@ export default function gameEngine() {
     return computerPlayer
   }
 
+  // Placing ships on manual mode
   function placeShipsManually(x, y) {
     const count = humanPlayer.getPlacedShipsCount()
 
@@ -55,6 +57,7 @@ export default function gameEngine() {
     onShipsPlaced()
   }
 
+  // check if a ship can be placed on a particular cell
   function canPlaceShips(x, y) {
     const count = humanPlayer.getPlacedShipsCount()
 
@@ -64,6 +67,7 @@ export default function gameEngine() {
     return  humanPlayer.canPlaceShips(Number(x), Number(y), ship.shipInfo().length, orientation)
   }
 
+  // Change game state once all ships are placed
   function onShipsPlaced() {
     if (
       humanPlayer.getPlacedShipsCount() === 5 &&
@@ -73,21 +77,16 @@ export default function gameEngine() {
     }
   }
 
+  // Change state to gameover once all the ships are sunk
   function onAllShipsSunk() {
     if (computerPlayer.allShipsSunk() || humanPlayer.allShipsSunk()) {
       gamePhase = 'gameover'
     }
   }
 
+  // On each valid attack in running mode computer player takes damage
   function humanAttack(x, y) {
     if (gamePhase === 'running' && humanTurn) {
-      // if (computerPlayer.receiveAttack(Number(x), Number(y))) {
-      //   humanTurn = false
-      //   computerTurn = true
-      //   onAllShipsSunk()
-      //   return true
-      // }
-      // return false
       const { valid, ship, result } = computerPlayer.receiveAttack(
         Number(x),
         Number(y),
@@ -104,12 +103,17 @@ export default function gameEngine() {
     }
     return false
   }
+
+  // Logical move set on computer
+
   function computerAttack() {
+    // Runs when mode is running and if it's computer's turn
     if (gamePhase === 'running' && computerTurn) {
       let { placement, coords } = computerMove()
       let [x, y] = coords
       let boardAttack = humanPlayer.receiveAttack(Number(x), Number(y))
 
+      // If it's not a valid attack, request a new move from computerMove
       while (!boardAttack.valid) {
         console.log('retry')
         console.log(nextLogicalAttackInfo)
@@ -121,6 +125,7 @@ export default function gameEngine() {
         console.log(boardAttack.result, boardAttack.valid)
       }
 
+      // These blocks check if a ship isSunk, initial hit, miss etc and change the logicalAttackInfo state accordingly
       if (boardAttack.result === 'hit' && boardAttack.ship.isSunk()) {
         console.log('ship sunk')
         nextLogicalAttackInfo = null
@@ -159,6 +164,7 @@ export default function gameEngine() {
     }
   }
 
+  // The next core logical move is calculated here
   function computerMove() {
     //find a target by attacking ship randomly
     let randomNum
@@ -170,8 +176,6 @@ export default function gameEngine() {
       let { state, initialHit, coords, placement, currentPath, failedPaths } =
         nextLogicalAttackInfo
       let [x, y] = initialHit
-      // console.log(x,y)
-      // console.log(placement)
       possibleMoves = [
         { placement: 'horizontal', coords: [x, y + 1] },
         { placement: 'horizontal', coords: [x, y - 1] },
@@ -209,11 +213,13 @@ export default function gameEngine() {
     }
   }
 
+  // checks if a particular cell is already hit or miss
   function isValidCell(coords) {
     let [x, y] = coords
     return !humanPlayer.isHit(x, y) && !humanPlayer.isMiss(x, y)
   }
 
+  // filter out valid moves from the four possible moves
   function filterValidMoves(possibleMoves, failedPaths, initialHit) {
     let [x, y] = initialHit
     let moves = possibleMoves
@@ -228,6 +234,7 @@ export default function gameEngine() {
     })
   }
 
+  // checks if the coords are not out of bounds
   function isValidMove(coords) {
     console.log('checking computer boundary')
 
@@ -236,7 +243,7 @@ export default function gameEngine() {
     let [x, y] = coords
     return x <= boardMax && x >= boardMin && y <= boardMax && y >= boardMin
   }
-
+  // Once a ship direction is found go right or left until a ship is sunk
   function handleHit(placement, initialHit, coords) {
     let direction = determineDirection(initialHit, coords)
     let nextCell = getNextCell(coords, direction)
@@ -254,6 +261,7 @@ export default function gameEngine() {
     return { placement, coords: nextCell }
   }
 
+  // If an attack is missed after finding the placement, change the direction, if still not found resume random hunting
   function handleMiss(placement, initialHit, coords) {
     let direction = determineDirection(initialHit, coords)
     direction = getOppositeDirection(direction)
@@ -265,6 +273,7 @@ export default function gameEngine() {
     return { placement: placement, coords: nextCell, path: direction }
   }
 
+  // Find the direction to lock on by checking initial and 2nd hits
   function determineDirection(initialHit, coords) {
     if (initialHit[1] < coords[1]) {
       return 'right'
@@ -289,7 +298,7 @@ export default function gameEngine() {
     }
     return directions[direction]
   }
-
+  //Find the next cell after the direction is found 
   function getNextCell(coords, direction) {
     if (direction === 'right') {
       return [coords[0], coords[1] + 1]
@@ -305,6 +314,7 @@ export default function gameEngine() {
     }
   }
 
+  // Find a winner after cheking the status of all their ships
   function checkWinner() {
     let status = false
 
@@ -325,6 +335,7 @@ export default function gameEngine() {
     return gamePhase
   }
 
+  // Resets game to default state
   function resetGame() {
     gamePhase = 'setup'
     humanTurn = true

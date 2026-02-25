@@ -3,6 +3,7 @@ import Ship from './ship.js'
 
 
 export default function Player(name) {
+  // Once a player is initialzed, the baord is automatically created by acessing the Gameboard
   const board = GameBoard()
   board.createBoard()
   const fleet = [Ship(2, 'Corvettes', "#00838f"), Ship(3, 'Destroyers', "#455a64"), Ship(3, 'Destroyers', "#455a64"), Ship(4, 'Cruisers', "#607d8b"), Ship(5, "Aircraft Carriers", "#546e7a")]

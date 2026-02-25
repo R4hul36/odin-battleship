@@ -13,8 +13,10 @@ export default function GameBoard() {
     board = Array.from({ length: 10 }, () => Array(10).fill(null))
   }
 
+  // place a ship
   function placeShip(ship, [x, y], orientation) {
     const length = ship.shipInfo().length
+    // Only place the ship if not out of bounds or not overlapping
     if (
       isValidBoundary(x, y, length, orientation) &&
       isNonOverlapping(x, y, board, length, orientation)
@@ -32,7 +34,7 @@ export default function GameBoard() {
     return false
   }
 
-m
+  // Check if a ship can be placed in a particular cell on manual placement
   function canPlaceShips(x, y, length, orientation) {
     return  isValidBoundary(x, y, length, orientation) && isNonOverlapping(Number(x), Number(y), board, length, orientation)
   }
@@ -41,6 +43,7 @@ m
     return placedShipsCount
   }
 
+  // Find if a particular cell is already hit
   function isAlreadyInteracted(x, y) {
     let isInteracted = false
     let attackedCells = [...missedCoord, ...hitCoord]
@@ -55,6 +58,7 @@ m
   }
 
   function receiveAttack(x, y) {
+    // only apply damage if it's not already hit
     if (!isAlreadyInteracted(x, y)) {
       if (board[x][y] !== null) {
         const currShip = board[x][y]
@@ -121,6 +125,7 @@ m
     return isMissed
   }
 
+  // find a ship at a particular location/cell
   function getShipAt(x,y) {
     if(board[x][y]!== null) {
       return board[x][y]

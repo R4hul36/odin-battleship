@@ -6,6 +6,8 @@
 
 body {
   font-family: sans-serif;
+  background-color: rgb(246, 246, 246);
+  
 }
 
 h1{
@@ -19,13 +21,11 @@ h1{
 } */
 
 .game-container {
-  width: 80%;
+  width: 70vw;
   margin: 5rem auto auto auto;
-  background-color: white;
-  display: flex;
   gap: 60px;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
 }
 
 .hum-container,
@@ -38,23 +38,29 @@ h1{
   position: relative;
 }
 
+.computer-container > .board {
+  cursor: crosshair;
+}
+
 .board {
-  height: 360px;
-  width: 360px;
   border: 1px solid white;
   background-color: rgb(222, 237, 250);
   display: grid;
   grid-template-columns: repeat(10, 1fr);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   
 }
 
+.board.active {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
 
 .cell {
   border: 1px solid white;
   width: 36px;
   height: 36px;
-  /* display: grid;
-  place-items: center; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,6 +76,7 @@ h1{
   /* background-color: red; */
   border: none;
   border-radius: 5px;
+  
 }
 
 .ship-sunk {
@@ -87,6 +94,7 @@ h1{
 
 .miss {
   background-color: rgb(152, 225, 250);
+  opacity: 0.7;
 }
 
 .msg-container,
@@ -140,4 +148,10 @@ h1{
 
 .invalid-placement {
   cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .game-container{
+    width: 100vw;
+  }
 }

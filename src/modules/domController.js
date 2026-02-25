@@ -219,14 +219,13 @@ function initialSetupModal() {
   overlay.innerHTML = ''
   const setUpContainer = document.createElement('div')
   setUpContainer.classList.add('setup-container')
-  const nameLabel = document.createElement('label')
-  const nameInput = document.createElement('input')
-  nameLabel.textContent = 'Name: '
-  nameInput.value = 'Human'
   const selectionSection = document.createElement('div')
   selectionSection.classList.add('selection')
   const txt = document.createElement('p')
   txt.textContent = 'Choose how to place the ships: '
+
+  const btnContainer = document.createElement('div')
+  btnContainer.classList.add('orientation-btn-container')
   const manual = document.createElement('button')
   manual.classList.add('manual-btn')
   manual.textContent = 'Manual'
@@ -234,12 +233,11 @@ function initialSetupModal() {
   automatic.classList.add('auto-btn')
   automatic.textContent = 'Automatic'
 
+  btnContainer.appendChild(manual)
+  btnContainer.appendChild(automatic)
   selectionSection.appendChild(txt)
-  selectionSection.appendChild(manual)
-  selectionSection.appendChild(automatic)
+  selectionSection.appendChild(btnContainer)
 
-  setUpContainer.appendChild(nameLabel)
-  setUpContainer.appendChild(nameInput)
   setUpContainer.appendChild(selectionSection)
 
   overlay.appendChild(setUpContainer)

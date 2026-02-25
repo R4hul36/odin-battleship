@@ -109,6 +109,25 @@ h1 {
   padding: 15px;
 }
 
+.selection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.orientation-btn-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.orientation-btn-container button,
+.restart-btn {
+  padding: 0.4rem;
+  border: none;
+  color: white;
+  background-color: #0288d1;
+}
+
 .overlay {
   position: fixed;
   width: 100vw;

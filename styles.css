@@ -7,6 +7,9 @@
 body {
   font-family: sans-serif;
   background-color: rgb(246, 246, 246);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 h1 {
@@ -45,7 +48,7 @@ h1 {
   background-color: rgb(222, 237, 250);
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -151,4 +154,15 @@ h1 {
   .game-container {
     width: 100vw;
   }
+}
+
+.footer {
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+  bottom: 1rem;
+  padding: 10px;
+  color: #777777;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
 }

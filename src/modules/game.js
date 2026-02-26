@@ -182,6 +182,7 @@ export default function gameEngine() {
 
       if (placement === null) {
         if (possibleMoves.length === 0) {
+          nextLogicalAttackInfo = null
           return { placement: null, coords: generateRandomCoordinates() }
         }
         randomNum = generateRandomNumber(possibleMoves.length)
@@ -237,6 +238,7 @@ export default function gameEngine() {
       direction = getOppositeDirection(direction)
       nextCell = getNextCell(initialHit, direction)
       if (!isValidCell(nextCell)) {
+        nextLogicalAttackInfo = null
         return { placement: null, coords: generateRandomCoordinates() }
       }
       nextLogicalAttackInfo.coords = nextCell

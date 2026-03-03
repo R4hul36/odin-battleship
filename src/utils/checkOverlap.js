@@ -1,14 +1,14 @@
 export default function isNonOverlapping(x, y, board, shipLength, orientation) {
-  let nonOverlapping = true
+  
   for (let i = 0; i < shipLength; i++) {
     if (orientation === 'horizontal' && board[x][y + i] !== null) {
-      nonOverlapping = false
+      return false
       break
     } else if (orientation === 'vertical' && board[x + i][y] !== null) {
-      nonOverlapping = false
+      return false
       break
     }
   }
 
-  return nonOverlapping
+  return true
 } 

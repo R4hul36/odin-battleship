@@ -13,32 +13,36 @@
 // }
 
 export default function isNonOverlapping(x, y, board, shipLength, orientation) {
-  let totalLength = shipLength + 2
-  let areaWidth = 3
-
-  if (orientation === 'horizontal') {
-    console.log('horizontal')
-
-    //2,1 ("initial click")
+   // 2,1 ("initial click")
     // 1,0 -> 1,7
     // 2,0 -> 2, 7
     // 3,0 -> 3, 7
+  let totalLength = shipLength + 2
+  let areaWidth = 3
+  let startX = x-1
+  let startY = y -1
 
-    let startX = x - 1
-    let startY = y - 1
-    console.log(startX, startY)
-    for (let i = startX; i < areaWidth; i++) {
-      console.log('hi')
+  if (orientation === 'horizontal') {
+    console.log('horizontal')
+    totalLength = shipLength + 2
+    areaWidth = 3
+    
+  }
 
-      for (let j = startY; j < totalLength; j++) {
-        console.log(i, j)
+  if (orientation === 'vertical') {
+    console.log('vertical')
+    totalLength = 3
+    areaWidth = shipLength + 2
+    
+  }
+  for (let i = startX; i < areaWidth+startX; i++) {
+      for (let j = startY; j < totalLength+startY; j++) {
         if (!checkShipOnBoundary(i, j)) {
           if (board[i][j] !== null) {
             return false
           }
         }
       }
-    }
   }
   return true
 }
